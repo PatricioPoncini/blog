@@ -8,16 +8,16 @@
 
 @layer base {
   @font-face {
-    font-family: "Atkinson";
-    src: url("/fonts/atkinson-regular.woff") format("woff");
+    font-family: 'Atkinson';
+    src: url('/fonts/atkinson-regular.woff') format('woff');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
   }
 
   @font-face {
-    font-family: "Atkinson";
-    src: url("/fonts/atkinson-bold.woff") format("woff");
+    font-family: 'Atkinson';
+    src: url('/fonts/atkinson-bold.woff') format('woff');
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -28,8 +28,7 @@ html {
   overflow-y: scroll;
   color-scheme: light;
   background-color: white;
-  font-family: "Atkinson", sans-serif;
-
+  font-family: 'Atkinson', sans-serif;
 }
 
 html.dark {
@@ -94,7 +93,9 @@ article {
 .animate {
   opacity: 0;
   transform: translateY(50px);
-  transition: opacity 1s ease, transform 1s ease;
+  transition:
+    opacity 1s ease,
+    transform 1s ease;
 }
 
 .animate.show {
@@ -123,14 +124,12 @@ article img {
   /* defined in tailwind.config */
 }
 
-
 /**
  * Meteors
  */
 
 #meteors .shower {
   @apply absolute inset-0 top-0;
-  ;
   @apply left-1/2 -translate-x-1/2;
   @apply w-screen aspect-square;
 }

@@ -1,7 +1,7 @@
 ---
-title: "Primer posteo"
-summary: "Bienvenido a mi espacio personal donde voy a compartir lo que aprendo mientras construyo cosas en el mundo del desarrollo."
-date: "2025-11-15"
+title: 'Primer posteo'
+summary: 'Bienvenido a mi espacio personal donde voy a compartir lo que aprendo mientras construyo cosas en el mundo del desarrollo.'
+date: '2025-11-15'
 draft: false
 tags:
   - Desarrollo
