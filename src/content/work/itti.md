@@ -1,8 +1,8 @@
 ---
-company: "itti"
-role: "Software Engineer"
-dateStart: "2025-06-09"
-dateEnd: "Actualmente"
+company: 'itti'
+role: 'Software Engineer'
+dateStart: '2025-06-09'
+dateEnd: 'Actualmente'
 technologies:
   - Go
   - Kotlin

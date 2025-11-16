@@ -1,7 +1,7 @@
 ---
-title: "Fetchy: una utilidad CLI para obtener información del sistema"
-summary: "De qué se trata Fetchy, por qué lo creé y cómo funciona por dentro."
-date: "2025-11-15"
+title: 'Fetchy: una utilidad CLI para obtener información del sistema'
+summary: 'De qué se trata Fetchy, por qué lo creé y cómo funciona por dentro.'
+date: '2025-11-15'
 draft: false
 tags:
   - Go
@@ -11,9 +11,10 @@ tags:
 ---
 
 ## ¿Qué es Fetchy?
+
 Fetchy es una herramienta ligera escrita en Go que permite obtener información completa del sistema directamente desde la terminal. Muestra detalles del hardware, software, kernel, memoria, GPU, CPU y más —todo con un output limpio, colorido y fácil de leer.
 
-Nació como una versión propia de las clásicas herramientas *neofetch*-like, pero enfocada en ser más simple, minimalista y construida totalmente a mi manera.
+Nació como una versión propia de las clásicas herramientas _neofetch_-like, pero enfocada en ser más simple, minimalista y construida totalmente a mi manera.
 
 ## ¿Por qué nació Fetchy?
 
@@ -58,14 +59,15 @@ Fetchy obtiene información del sistema combinando:
 - Base para quienes quieran aprender a leer datos del sistema desde Go.
 
 ## Demo
+
 ```shell
 
-    ______     __       __         
+    ______     __       __
    / ____/__  / /______/ /_  __  __
   / /_  / _ \/ __/ ___/ __ \/ / / /
- / __/ /  __/ /_/ /__/ / / / /_/ / 
-/_/    \___/\__/\___/_/ /_/\__, /  
-                          /____/   
+ / __/ /  __/ /_/ /__/ / / / /_/ /
+/_/    \___/\__/\___/_/ /_/\__, /
+                          /____/
 
 A Lightweight System Info Tool
 
@@ -84,14 +86,15 @@ RAM:         15Gi total, 9,0Gi used
 GPU:         01:00.0 VGA compatible controller: NVIDIA Corporation GM206 [GeForce GTX 950] (rev a1)
 
 Storage Info:
-Model                     Size (GB)       
+Model                     Size (GB)
 ---------------------------------------------
-KINGSTON                       894,3G              
-WD                             931,5G              
+KINGSTON                       894,3G
+WD                             931,5G
 ---------------------------------------------
 ```
 
 ## ¿Y ahora qué sigue?
+
 Hay varias ideas para futuras mejoras:
 
 - Agregar soporte para más sistemas operativos.

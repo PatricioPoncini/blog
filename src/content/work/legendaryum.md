@@ -1,8 +1,8 @@
 ---
-company: "Legendaryum"
-role: "Software Engineer"
-dateStart: "2023-09-30"
-dateEnd: "2025-06-08"
+company: 'Legendaryum'
+role: 'Software Engineer'
+dateStart: '2023-09-30'
+dateEnd: '2025-06-08'
 technologies:
   - Typescript
   - Go
