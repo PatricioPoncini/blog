@@ -3,6 +3,13 @@ company: "Consultora Pablo Barón"
 role: "Software Engineer"
 dateStart: "2022-10-01"
 dateEnd: "2023-09-29"
+technologies:
+  - Typescript
+  - MySQL
+  - Express.js
+  - Node.js
+  - Vue.js
+  - Tailwind CSS
 ---
 
 - Desarrollo y mantenimiento de APIs RESTful con Node.js, Express, TypeScript y TypeORM.

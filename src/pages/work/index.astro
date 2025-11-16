@@ -29,31 +29,44 @@ function formatWorkDate(input: Date | string) {
 ---
 
 <PageLayout title={WORK.TITLE} description={WORK.DESCRIPTION}>
-  <TopLayout>
-    <div class="animate page-heading">
-      {WORK.TITLE}
-    </div>
-  </TopLayout>
-  <BottomLayout>
-    <ul>
-      { 
-        work.map((entry) => (
-          <li class="animate border-b border-black/10 dark:border-white/25 mt-4 py-8 first-of-type:mt-0 first-of-type:pt-0 last-of-type:border-none">
-            <div class="text-sm uppercase mb-4">
-              {formatWorkDate(entry.data.dateStart)} - {formatWorkDate(entry.data.dateEnd)}
-            </div>
-            <div class="text-black dark:text-white font-semibold">
-              {entry.data.company}
-            </div>
-            <div class="text-sm font-semibold">
-              {entry.data.role}
-            </div>
-            <article class="prose dark:prose-invert">
-              <entry.Content />
-            </article>
-          </li>
-        ))
-      }
-    </ul>
-  </BottomLayout>
+    <TopLayout>
+        <div class="animate page-heading">
+            {WORK.TITLE}
+        </div>
+    </TopLayout>
+    <BottomLayout>
+        <ul>
+            {
+                work.map((entry) => (
+                        <li class="animate border-b border-black/10 dark:border-white/25 mt-4 py-8 first-of-type:mt-0 first-of-type:pt-0 last-of-type:border-none">
+                            <div class="text-sm uppercase mb-4">
+                                {formatWorkDate(entry.data.dateStart)} - {formatWorkDate(entry.data.dateEnd)}
+                            </div>
+
+                            <div class="text-black dark:text-white font-semibold">
+                                {entry.data.company}
+                            </div>
+
+                            <div class="text-sm font-semibold">
+                                {entry.data.role}
+                            </div>
+
+                            {entry.data.technologies && (
+                                    <div class="flex flex-wrap gap-2 mt-4">
+                                        {entry.data.technologies.map((tech) => (
+                                                <span class="px-2 py-1 text-xs rounded-full bg-black/5 dark:bg-white/10 text-black dark:text-white whitespace-nowrap">
+                    {tech}
+                  </span>
+                                        ))}
+                                    </div>
+                            )}
+
+                            <article class="prose dark:prose-invert mt-4">
+                                <entry.Content />
+                            </article>
+                        </li>
+                ))
+            }
+        </ul>
+    </BottomLayout>
 </PageLayout>

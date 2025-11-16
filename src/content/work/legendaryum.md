@@ -3,6 +3,17 @@ company: "Legendaryum"
 role: "Software Engineer"
 dateStart: "2023-09-30"
 dateEnd: "2025-06-08"
+technologies:
+  - Typescript
+  - Go
+  - Bun
+  - Node.js
+  - Vue.js
+  - Redis
+  - PostgreSQL
+  - MongoDB
+  - RabbitMQ
+  - Docker
 ---
 
 - Liderado del equipo de backend en el diseño, optimización y mantenimiento de microservicios, impulsando nuevas funcionalidades para mejorar el rendimiento y la fiabilidad de la plataforma.
