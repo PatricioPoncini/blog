@@ -16,19 +16,19 @@ export const WORK: Page = {
 // Blog Page
 export const BLOG: Page = {
   TITLE: 'Blog',
-  DESCRIPTION: 'Posteos sobre cosas que me interesan/parecen curiosas',
+  DESCRIPTION: 'Publicaciones sobre temas que me interesan o me resultan curiosos.',
 }
 
 // Projects Page
 export const PROJECTS: Page = {
   TITLE: 'Proyectos',
-  DESCRIPTION: 'Proyectos personales en los que he trabajado (o están en proceso',
+  DESCRIPTION: 'Proyectos personales que he desarrollado o que actualmente estoy construyendo.',
 }
 
 // Search Page
 export const SEARCH: Page = {
   TITLE: 'Búsqueda',
-  DESCRIPTION: 'Aquí puedes buscar tópicos de tu interes',
+  DESCRIPTION: 'Aquí puedes buscar tópicos de tu interés',
 }
 
 // Links
