@@ -53,18 +53,18 @@ Para testear esta función no necesitamos Redis ejecutándose, sino únicamente 
 Para eso podemos reemplazar el cliente real por un mock al que le indicamos que debe devolver:
 
 ```ts
-test("Should call lPush on the client", async () => {
-    const fakeClient = {
-        lPush: mock(async () => 1),
-    };
+test('Should call lPush on the client', async () => {
+  const fakeClient = {
+    lPush: mock(async () => 1),
+  }
 
-    (RedisService as any).client = fakeClient;
+  (RedisService as any).client = fakeClient
 
-    await RedisService.lpush("messages", "hello");
+  await RedisService.lpush('messages', 'hello')
 
-    expect(fakeClient.lPush).toHaveBeenCalled();
-    expect(fakeClient.lPush).toHaveBeenCalledWith("messages", "hello");
-});
+  expect(fakeClient.lPush).toHaveBeenCalled()
+  expect(fakeClient.lPush).toHaveBeenCalledWith('messages', 'hello')
+})
 ```
 
 La ventaja es que las pruebas son rápidas, aisladas y no dependen de servicios externos.
