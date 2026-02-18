@@ -54,7 +54,7 @@ Para eso podemos reemplazar el cliente real por un mock al que le indicamos que 
 
 ```ts
 test('Should call lPush on the client', async () => {
-  const fakeClient = {
+  const fakeClient = ({
     lPush: mock(async () => 1),
   }
 
