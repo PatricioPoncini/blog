@@ -13,8 +13,8 @@ export default {
         DEFAULT: {
           css: {
             'code:not(pre code)': {
-              backgroundColor: '#f3f4f6',
-              color: '#eb4898',
+              backgroundColor: '#f1f5f9', // Slate 100 para modo claro
+              color: '#0366d6',           // Un azul similar pero legible en blanco
               padding: '0.2em 0.4em',
               borderRadius: '0.375rem',
               fontWeight: '500',
@@ -26,8 +26,9 @@ export default {
         invert: {
           css: {
             'code:not(pre code)': {
-              backgroundColor: '#1e293b',
-              color: '#f472b6',
+              // Un fondo negro azulado muy profundo para máxima sutileza
+              backgroundColor: '#0d1117',
+              color: '#9ecbff',           // El cyan exacto de tu imagen
               '&::before': { content: '"" !important' },
               '&::after': { content: '"" !important' },
             },
