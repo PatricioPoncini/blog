@@ -1,6 +1,6 @@
 ---
-title: 'Concurrencia Real en Go: Optimizando imágenes con Worker Pools'
-summary: '¿Alguna vez te preguntaste qué tan rápido puede ser Go? En este post procesamos imágenes reales usando todos los núcleos de tu CPU para demostrar el poder de las goroutines y channels.'
+title: 'El núcleo de la concurrencia en Go: Goroutines, Channels y Worker Pools'
+summary: 'No se trata solo de lanzar funciones al fondo. Aprendé a sincronizar procesos de forma segura y a implementar patrones de Worker Pool para resolver cuellos de botella reales aprovechando al máximo el hardware.'
 date: '2026-03-08'
 draft: false
 tags:

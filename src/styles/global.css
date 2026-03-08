@@ -70,6 +70,11 @@ article {
   @apply prose dark:prose-invert max-w-full pb-12;
 }
 
+.prose code::before,
+.prose code::after {
+  content: "" !important;
+}
+
 .page-heading {
   @apply font-semibold text-black dark:text-white;
 }
