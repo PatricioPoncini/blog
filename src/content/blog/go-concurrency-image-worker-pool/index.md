@@ -246,3 +246,4 @@ Espero que este ejemplo práctico te sirva de base para optimizar tus propios pr
 ### Artículos útiles
 - [A Tour of Go, Concurrency](https://go.dev/tour/concurrency/11)
 - [Concurrencia (informática)](https://es.wikipedia.org/wiki/Concurrencia_(inform%C3%A1tica))
+- [Explicación del Patron De Diseño Worker Pool](https://coffeebytes.dev/es/software-architecture/explicacion-del-patron-de-diseno-worker-pool/)
