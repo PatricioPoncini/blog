@@ -21,7 +21,7 @@ export const BLOG: Page = {
 
 // Projects Page
 export const PROJECTS: Page = {
-  TITLE: 'Proyectos',
+  TITLE: 'Mis proyectos',
   DESCRIPTION: 'Proyectos personales que he desarrollado o que actualmente estoy construyendo.',
 }
 

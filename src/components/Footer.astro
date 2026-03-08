@@ -46,15 +46,14 @@ import Container from '@components/Container.astro'
       </Container>
     </section>
 
-    <section
-      class="py-5 overflow-hidden whitespace-nowrap border-t border-black/10 dark:border-white/25"
-    >
+    <section class="py-5 overflow-hidden border-t border-black/10 dark:border-white/25">
       <Container size="md">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div class="flex flex-col items-center sm:items-start">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+
+          <div class="flex items-center">
             <a
-              href="/"
-              class="flex gap-1 w-fit font-semibold text-current hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out"
+                href="/"
+                class="flex gap-1 w-fit font-semibold text-current hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out"
             >
               <svg class="size-6 fill-current">
                 <use href="/brand.svg#brand"></use>
@@ -62,6 +61,24 @@ import Container from '@components/Container.astro'
               {SITE.TITLE}
             </a>
           </div>
+
+          <div class="flex flex-wrap gap-1 items-center justify-center">
+            {
+              SOCIALS.map((SOCIAL) => (
+                  <a
+                      href={SOCIAL.HREF}
+                      target="_blank"
+                      aria-label={`${SITE.TITLE} on ${SOCIAL.NAME}`}
+                      class="group size-10 rounded-full p-2 flex items-center justify-center hover:bg-black/5 dark:hover:20 blend"
+                  >
+                    <svg class="size-full fill-current group-hover:fill-black group-hover:dark:fill-white blend">
+                      <use href={`/social.svg#${SOCIAL.ICON}`} />
+                    </svg>
+                  </a>
+              ))
+            }
+          </div>
+
         </div>
       </Container>
     </section>
@@ -71,41 +88,7 @@ import Container from '@components/Container.astro'
     >
       <Container size="md">
         <div class="h-full grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div class="order-2 sm:order-1 flex flex-col items-center justify-center sm:items-start">
-            <div class="legal">
-              <a
-                href="/legal/terms"
-                class="text-current hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out"
-              >
-                Terms
-              </a> |
-              <a
-                href="/legal/privacy"
-                class="text-current hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out"
-              >
-                Privacy
-              </a>
-            </div>
-          </div>
 
-          <div class="order-1 sm:order-2 flex justify-center sm:justify-end">
-            <div class="flex flex-wrap gap-1 items-center justify-center">
-              {
-                SOCIALS.map((SOCIAL) => (
-                  <a
-                    href={SOCIAL.HREF}
-                    target="_blank"
-                    aria-label={`${SITE.TITLE} on ${SOCIAL.NAME}`}
-                    class="group size-10 rounded-full p-2 items-center justify-center hover:bg-black/5 dark:hover:bg-white/20  blend"
-                  >
-                    <svg class="size-full fill-current group-hover:fill-black group-hover:dark:fill-white blend">
-                      <use href={`/social.svg#${SOCIAL.ICON}`} />
-                    </svg>
-                  </a>
-                ))
-              }
-            </div>
-          </div>
         </div>
       </Container>
     </section>
