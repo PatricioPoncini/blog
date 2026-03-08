@@ -104,9 +104,9 @@ Ya tenemos lo básico de como podemos mejorar la performance de nuestro código 
 
 Supongamos que tenemos una página web que se encarga de bajarle el peso a las imágenes. Es común, muchas veces una imagen pesa 3mb pero es muy pesada para algunos sitios, por lo que queremos bajarle el peso sin sacrificar la calidad de la misma.
 
-Para esto podemos tener un servidor backend desarrollado en Go que reciba peticiones con las imágenes, las procese una por una y luego las devuelva con un peso más bajo. Suponiendo que el procesamiento de cada imagen tarda 1 segundo, y nos llegan 10 imágenes, tardaríamos 10 segundos en procesar todas.
+Para esto podemos tener un servidor backend desarrollado en Go que reciba las imágenes, las procese una por una y luego las devuelva con el peso reducido. Suponiendo que el procesamiento de cada imagen tarda 1 segundo, y nos llegan 10 imágenes, tardaríamos 10 segundos en procesar todas.
 
-Pero nosotros ahora aprendimos a que podemos gestionar procesos en paralelo, por lo cual podriamos procesar varias imágenes al mismo tiempo sin romper el flujo de trabajo, pero con un tiempo de respuesta muchísimo mejor. El siguiente ejemplo es uno un poco más avanzado:
+Pero nosotros ahora aprendimos a que podemos gestionar procesos concurrentemente, por lo cual podriamos procesar varias imágenes al mismo tiempo sin romper el flujo de trabajo, pero con un tiempo de respuesta muchísimo mejor. El siguiente ejemplo es uno un poco más avanzado:
 
 ```go
 package main
@@ -237,7 +237,9 @@ Te dejo el link al repositorio de Github por si queres probarlo vos mismo en tu 
 - **Cargas intensivas de CPU**: Ideal para tareas de hashing criptográfico, compresión de archivos o transcodificación, donde queremos **saturar los núcleos del procesador de forma controlada sin bloquear el hilo principal**.
 
 ## Conclusión: Eficiencia sobre velocidad
-La concurrencia en Go es mucho más que una funcionalidad del lenguaje; es una filosofía de diseño que nos permite construir sistemas verdaderamente escalables. Como vimos, pasar de una ejecución secuencial a una concurrente no solo reduce los tiempos de respuesta, sino que nos permite aprovechar al máximo el hardware que ya tenemos, manteniendo el sistema estable y predecible bajo carga masiva.
+La concurrencia en Go es mucho más que una funcionalidad del lenguaje; es una filosofía de diseño que nos permite construir sistemas verdaderamente escalables. 
+
+Como vimos, pasar de una ejecución secuencial a una concurrente no solo reduce los tiempos de respuesta, sino que nos permite aprovechar al máximo el hardware que ya tenemos, manteniendo el sistema estable y predecible bajo carga masiva.
 
 Espero que este ejemplo práctico te sirva de base para optimizar tus propios procesos. ¡Nos vemos en el próximo posteo!
 
