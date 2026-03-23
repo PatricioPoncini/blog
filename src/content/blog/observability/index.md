@@ -24,7 +24,7 @@ Es común confundir estos términos, pero la distinción es clara:
 ## Impacto en la operación y el negocio
 Implementar una estrategia sólida de observabilidad y monitoreo no es un "lujo" técnico, es una inversión que impacta directamente en la eficiencia del equipo y en la rentabilidad del producto. Estos son los problemas concretos que logramos mitigar:
 - **Reducción drástica del MTTR (Mean Time To Recovery):** Sin observabilidad, ante un fallo en producción el equipo pierde horas tratando de adivinar el origen del problema. Al tener trazabilidad completa, pasamos de la suposición al diagnóstico basado en datos en cuestión de minutos. Esto nos ahorra cientos de horas de ingeniería al año y minimiza el impacto en el usuario final.
-- **Detección de "fallos grises" antes que el cliente**: El monitoreo tradicional nos avisa cuando algo se cae, pero la observabilidad nos muestra cuando algo está funcionando mal (latencia alta, errores intermitentes, etc). Esto nos permite intervenir proactivamente antes de que los usuarios reporten problemas, protegiendo la reputación de la empresa.
+- **Detección de "fallos grises" antes que el cliente**: El monitoreo tradicional nos avisa cuando algo se cae, pero la observabilidad nos muestra cuando algo está funcionando mal (ejemplo, un P95 de latencia que se dispara aunque el promedio parezca normal). Esto nos permite intervenir proactivamente antes de que los usuarios reporten problemas, protegiendo la reputación de la empresa.
 - **Validación objetiva de deploys y features:** Elimina la incertidumbre técnica tras un lanzamiento. Al monitorear flujos internos en tiempo real, podemos validar si una nueva funcionalidad se comporta como esperamos bajo carga real. Si algo sale mal, lo detectamos al instante, permitiendo un rollback seguro o un hotfix preciso, evitando regresiones costosas.
 - **Eliminación del sesgo en la toma de decisiones:** Un sistema observable permite que las discusiones sobre escalabilidad o cambios arquitectónicos dejen de ser opiniones subjetivas. Contar con métricas históricas y correlación de eventos permite al negocio planificar el crecimiento sobre una base sólida de datos reales.
 
@@ -34,7 +34,7 @@ Para que la observabilidad sea efectiva, no basta con recolectar datos, hay que 
 - **Logs estructurados:** Son los registros detallados de eventos. Un log con contexto y enriquecido de buena información nos permite entender el "porqué" de un fallo específico.
 - **Traces:** Nos permite seguir una petición a través de toda la infraestructura, identificando cuellos de botella en el camino crítico de la solicitud.
 
-![Observabilidad 2](/photos/pilares.png)
+![Pilares](/photos/pilares.png)
 
 ## El comienzo de la implementación
 Entendido el valor operativo y de negocio, la pregunta es: ¿cómo arrancamos?
@@ -45,7 +45,12 @@ Link al repo: https://github.com/PatricioPoncini/opentelemetry-express-bun
 
 Este repositorio contiene un servicio básico que utilizando [Opentelemetry](https://opentelemetry.io/) permite visualizar en Grafana un dashboard pre-configurado muy básico de salud del sistema, entre otras cosas. Dentro del archivo `README.md` vas a poder encontrar como levantarlo localmente, te invito a que lo hagas para que puedas explorar un poco como funciona la plataforma y que información te permite obtener.
 
-![test](/photos/grafana_dashboard.png)
+Para este ejemplo, utilicé un stack moderno y eficiente:
+- **Runtime:** Bun por su performance y manejo nativo de TS.
+- **Logs:** Pino con transporte a Loki para tener logs estructurados y rápidos de consultar.
+- **Métricas:** Prometheus capturando las Golden Signals (Latencia, Tráfico, Errores).
+
+![Dashboard](/photos/grafana_dashboard.png)
 
 El objetivo de este mini proyecto (y de este posteo) es poder mostrar porque es realmente importante poder monitorear tu sistema y poder hacer uso de la observabilidad sobre el mismo. No solamente son ventajas que te van a ayudar en el desarrollo del día a día, sino que también ayuda cuando todo se está prendiendo fuego y debemos encontrar una solución lo más pronto posible.
 
