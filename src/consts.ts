@@ -3,7 +3,8 @@ import type { Site, Page, Links, Socials } from '@types'
 // Global
 export const SITE: Site = {
   TITLE: 'AxisDev',
-  DESCRIPTION: 'Bienvenido a mi blog, un espacio personal donde voy a compartir lo que aprendo mientras construyo cosas en el mundo del desarrollo.',
+  DESCRIPTION:
+    'Bienvenido a mi blog, un espacio personal donde voy a compartir lo que aprendo mientras construyo cosas en el mundo del desarrollo.',
   AUTHOR: 'Patricio Poncini',
 }
 
