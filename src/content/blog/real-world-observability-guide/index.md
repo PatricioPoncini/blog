@@ -7,8 +7,6 @@ tags:
   - Backend
   - SRE
   - Observability
-  - OpenTelemetry
-  - Grafana
   - Distributed Tracing
 ---
 
