@@ -15,7 +15,7 @@ tags:
 - [¿Qué es la idempotencia?](#qué-es-la-idempotencia)
 - [¿Por qué los reintentos son inevitables?](#por-qué-los-reintentos-son-inevitables)
 - [Operaciones que ya son idempotentes](#operaciones-que-ya-son-idempotentes)
-- [¿En qué tipo de sistemas se puede aplicar?](#en-qué-tipo-de-sistemas-se-puede-aplicar)
+- [¿Cómo se implementa en la práctica?](#cómo-se-implementa-en-la-práctica)
   - [APIs REST](#apis-rest)
   - [Colas de mensajería](#colas-de-mensajería)
 - [Usos comunes en IT](#usos-comunes-en-it)
@@ -49,7 +49,7 @@ Antes que nada vale la pena entender qué operaciones HTTP son naturalmente idem
 
 La mayoría de las operaciones críticas de un sistema (crear un pago, registrar un usuario, emitir una factura, etc) son **POST** y ninguna de ellas es idempotente de forma natural. Hay que hacerlas idempotentes explícitamente. Pero, ¿cómo se logra eso?
 
-# ¿En qué tipo de sistemas se puede aplicar?
+# ¿Cómo se implementa en la práctica?
 
 ## APIs REST
 Como mencionamos antes, POST no es idempotente por naturaleza, pero podemos lograrlo con un pequeño contrato entre cliente y servidor. La idea es pedirle al cliente que incluya un header (convencionalmente llamado `Idempotency-Key`) con un valor único por operación, típicamente un UUID que genera del lado del cliente antes de mandar el request.
@@ -73,9 +73,10 @@ func HandlePayment(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    // Buscamos la key en el store. Si existe, significa que ya procesamos
-    // este request anteriormente y tenemos el resultado guardado.
-    // En ese caso, lo devolvemos directamente sin volver a procesar nada.
+    // Buscamos la key en el store. En Go, las funciones devuelven el error
+    // como valor de retorno: err == nil significa que la operación fue exitosa
+    // (la key existe). Si es así, ya procesamos este request antes y devolvemos
+    // el resultado guardado directamente sin volver a procesar nada.
     cached, err := store.Get(ctx, key)
     if err == nil {
         writeJSON(w, http.StatusOK, cached)
@@ -115,8 +116,9 @@ func HandleEvent(msg amqp.Delivery) {
         return
     }
 
-    // Buscamos el ID en el store. Si ya existe, este evento
-    // fue procesado anteriormente: le damos ACK y lo ignoramos.
+    // Buscamos el ID en el store. El _ descarta el valor devuelto porque
+    // solo nos importa saber si la key existe, no su contenido.
+    // Si err == nil (la key existe), el evento ya fue procesado: ACK y listo.
     _, err := store.Get(ctx, eventID)
     if err == nil {
         msg.Ack(false)
