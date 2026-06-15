@@ -1,5 +1,5 @@
 ---
-title: 'Idempotencia: ¿Qué pasa si la misma request llega dos veces?'
+title: 'Idempotencia: ¿Qué hace tu sistema cuando el mismo request llega dos veces?'
 summary: 'En redes distribuidas, la pregunta no es si un mismo request va a llegar duplicado, sino cuándo. La idempotencia es lo que hace que eso no importe. En este post vemos el problema, los patrones para resolverlo y un ejemplo concreto en Go.'
 date: '2026-06-14'
 draft: false
@@ -7,6 +7,8 @@ tags:
   - Go
   - Backend
   - Idempotency
+  - SystemsDesign
+  - Performance
 ---
 
 # ¿Qué es la idempotencia?
