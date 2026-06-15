@@ -11,6 +11,16 @@ tags:
   - Performance
 ---
 
+# Contenido
+- [¿Qué es la idempotencia?](#qué-es-la-idempotencia)
+- [¿Por qué los reintentos son inevitables?](#por-qué-los-reintentos-son-inevitables)
+- [Operaciones que ya son idempotentes](#operaciones-que-ya-son-idempotentes)
+- [¿En qué tipo de sistemas se puede aplicar?](#en-qué-tipo-de-sistemas-se-puede-aplicar)
+  - [APIs REST](#apis-rest)
+  - [Colas de mensajería](#colas-de-mensajería)
+- [Detalles que importan en producción](#detalles-que-importan-en-producción)
+- [Conclusión](#conclusión)
+
 # ¿Qué es la idempotencia?
 
 La definición de idempotencia dice que es **la propiedad para realizar una acción determinada varias veces y aun así conseguir el mismo resultado que se obtendría si se realizase una sola vez**. Hay un ejemplo de la vida cotidiana que explica esto de manera perfecta:
@@ -92,6 +102,39 @@ El mismo principio aplica cuando consumís eventos de una cola como SQS o Rabbit
 Si ya existe, le damos ACK a la cola pero ignoramos el evento (ya fue procesado). Si no existe, procesamos el evento, guardamos el ID y recién entonces damos el ACK. El resultado hacia la cola es siempre el mismo (un ACK), pero internamente nos aseguramos de que el efecto ocurra una sola vez.
 
 ![alt text](/photos/idempotency_key_queue.png)
+
+### Código de ejemplo
+En RabbitMQ, cada mensaje trae un `MessageId` que podemos usar como key de idempotencia. El flujo es el mismo que en la API REST: si el ID ya existe en el store, el evento fue procesado antes y lo ignoramos. Si no existe, lo procesamos y guardamos el ID. La diferencia está en que acá la "respuesta" no es un JSON sino un ACK a la cola.
+
+```go
+func HandleEvent(msg amqp.Delivery) {
+    // Cada mensaje trae un ID único que identifica la transacción.
+    // Lo usamos como key para detectar duplicados.
+    eventID := msg.MessageId
+    if eventID == "" {
+        msg.Nack(false, false)
+        return
+    }
+
+    // Buscamos el ID en el store. Si ya existe, este evento
+    // fue procesado anteriormente: le damos ACK y lo ignoramos.
+    _, err := store.Get(ctx, eventID)
+    if err == nil {
+        msg.Ack(false)
+        return
+    }
+
+    // El ID no existe: es la primera vez que vemos este evento.
+    // Procesamos el mensaje normalmente.
+    processEvent(msg.Body)
+
+    // Guardamos el ID antes de dar el ACK para evitar reprocesar
+    // si el broker reenvía el mensaje por no recibir confirmación a tiempo.
+    store.Set(ctx, eventID, "processed", 24*time.Hour)
+
+    msg.Ack(false)
+}
+```
 
 # Detalles que importan en producción
 La implementación básica es sencilla, pero hay algunos edge cases que vale considerar antes de llevar esto a un sistema real.
