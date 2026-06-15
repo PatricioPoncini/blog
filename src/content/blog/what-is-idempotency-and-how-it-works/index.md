@@ -18,6 +18,8 @@ tags:
 - [¿En qué tipo de sistemas se puede aplicar?](#en-qué-tipo-de-sistemas-se-puede-aplicar)
   - [APIs REST](#apis-rest)
   - [Colas de mensajería](#colas-de-mensajería)
+- [Usos comunes en IT](#usos-comunes-en-it)
+- [Beneficios de implementarla](#beneficios-de-implementarla)
 - [Detalles que importan en producción](#detalles-que-importan-en-producción)
 - [Conclusión](#conclusión)
 
@@ -27,9 +29,7 @@ La definición de idempotencia dice que es **la propiedad para realizar una acci
 
 Cuando estás esperando el ascensor y apretás el botón, ¿qué pasa si lo apretás de nuevo? Nada. El ascensor ya fue llamado. La segunda vez que apretás el botón, el sistema lo ignora porque el efecto ya fue producido. No importa cuántas veces lo toques el resultado siempre es el mismo.
 
-Eso es la idempotencia. Una operación es idempotente cuando ejecutarla una vez tiene el mismo efecto que ejecutarla múltiples veces.
-
-En matemática se escribe así: `f(f(x)) = f(x)`. Pero en la práctica significa algo mucho más concreto: si un cliente manda el mismo request dos veces, el sistema debería producir el mismo resultado sin efectos secundarios adicionales.
+Eso es la idempotencia. Una operación es idempotente cuando repetirla no cambia nada. El estado del sistema después de la segunda llamada es idéntico al estado después de la primera.
 
 # ¿Por qué los reintentos son inevitables?
 Imaginá que estás comprando entradas para un recital. Apretás "Confirmar compra", la pantalla se queda girando y después de 10 segundos te aparece un error genérico. ¿Se procesó el pago o no? No tenés idea. Lo único que podés hacer es intentarlo de nuevo y esperar que esta vez funcione.
@@ -38,22 +38,21 @@ Eso mismo pasa en el mundo real todo el tiempo: la conexión se cae antes de que
 
 En todos esos casos el cliente no sabe si el servidor llegó a procesar el request o no. Su única opción razonable es reintentar. Y si tu sistema no está preparado para eso, el resultado son pedidos duplicados, cobros dobles, o usuarios registrados dos veces.
 
-Los reintentos no son un bug del cliente. Son una respuesta lógica ante la incertidumbre de las redes distribuidas. Tu servidor tiene que estar diseñado para recibirlos.
+Los reintentos no son un bug del cliente. Son una respuesta lógica ante la incertidumbre de las redes distribuidas. El servidor tiene que estar diseñado para recibirlos.
 
 # Operaciones que ya son idempotentes
 Antes que nada vale la pena entender qué operaciones HTTP son naturalmente idempotentes:
 
-- **GET**: Siempre idempotente. Pedís datos, los obtenés. Pedirlos de nuevo no cambia nada (asumiendo que no hubo cambios en la información que estas solicitando mientras ejecutas las peticiones).
-- **HEAD:** Como el cliente no recibe ningún body como response, solo los headers, es idempotente.
+- **GET**: Siempre idempotente. Pedís datos, los obtenés. Pedirlos de nuevo no cambia nada (asumiendo que no hubo cambios en la información que estás solicitando mientras ejecutás las peticiones).
 - **PUT:** Idempotente por diseño. `PUT /users/1` con el mismo body siempre deja al usuario en el mismo estado.
 - **DELETE:** Borrar algo que ya fue borrado debería simplemente no hacer nada (o devolver 404).
 
-La mayoría de las operaciones críticas de un sistema (crear un pago, registrar un usuario, emitir una factura, etc) son **POST** y ninguna de ellas es idempotente de forma natural. Hay que hacerlas idempotentes explícitamente. Pero, ¿como se logra eso?
+La mayoría de las operaciones críticas de un sistema (crear un pago, registrar un usuario, emitir una factura, etc) son **POST** y ninguna de ellas es idempotente de forma natural. Hay que hacerlas idempotentes explícitamente. Pero, ¿cómo se logra eso?
 
 # ¿En qué tipo de sistemas se puede aplicar?
 
 ## APIs REST
-Como mencionamos antes, POST no es idempotente por naturaleza, pero podemos hacerlo serlo con un pequeño contrato entre cliente y servidor. La idea es pedirle al cliente que incluya un header (convencionalmente llamado `Idempotency-Key`) con un valor único por operación, típicamente un UUID que genera del lado del cliente antes de mandar el request.
+Como mencionamos antes, POST no es idempotente por naturaleza, pero podemos lograrlo con un pequeño contrato entre cliente y servidor. La idea es pedirle al cliente que incluya un header (convencionalmente llamado `Idempotency-Key`) con un valor único por operación, típicamente un UUID que genera del lado del cliente antes de mandar el request.
 
 Del lado del servidor, la lógica es simple: cuando llega el request, buscamos esa key en la base de datos. Si ya existe, devolvemos exactamente la misma respuesta que devolvimos la primera vez. Si no existe, procesamos la operación normalmente, guardamos el resultado y registramos la key para futuras verificaciones.
 
@@ -135,6 +134,21 @@ func HandleEvent(msg amqp.Delivery) {
     msg.Ack(false)
 }
 ```
+
+# Usos comunes en IT
+La idempotencia aparece constantemente en sistemas reales. Estos son algunos de los contextos donde más se aplica:
+
+- **Medios de pago**: Cualquier API de cobro necesita garantizar que un pago se procese exactamente una vez. Un reintento por timeout no puede terminar en dos cargos al usuario.
+- **Envío de emails y notificaciones push**: Si un worker falla después de enviar pero antes de confirmar el procesamiento, el sistema puede reenviar el evento. Sin idempotencia, el usuario recibe dos emails de confirmación o dos notificaciones.
+- **Webhooks**: Cuando un servicio externo manda un webhook, espera un 200 como confirmación. Si no lo recibe a tiempo, reintentará. Los endpoints tienen que estar preparados para recibir el mismo evento más de una vez.
+
+# Beneficios de implementarla
+Diseñar sistemas con idempotencia tiene consecuencias concretas que van más allá de "evitar duplicados":
+
+- **Los reintentos se vuelven seguros**: El cliente puede reintentar un request sin miedo a efectos secundarios. Esto simplifica enormemente el manejo de errores del lado del cliente, que en lugar de intentar adivinar si el servidor procesó o no la operación, simplemente puede volver a intentar.
+- **El sistema es resiliente ante fallos de red**: Un timeout deja de ser un problema crítico. Si la respuesta nunca llegó, el cliente reintenta y el servidor devuelve el mismo resultado sin reprocesar nada.
+- **Mejor experiencia de usuario**: El usuario nunca ve un cobro duplicado, un pedido repetido o un email de más. El sistema absorbe la incertidumbre de la red sin trasladarla al usuario.
+- **Trazabilidad natural**: Cada operación queda registrada con su key única. Eso actúa como un audit trail implícito. Se puede saber exactamente cuántas veces llegó un request y cuándo fue procesado por primera vez.
 
 # Detalles que importan en producción
 La implementación básica es sencilla, pero hay algunos edge cases que vale considerar antes de llevar esto a un sistema real.
