@@ -1,6 +1,6 @@
 ---
-title: 'Idempotencia: ¿Qué hace tu sistema cuando el mismo request llega dos veces?'
-summary: 'En redes distribuidas, la pregunta no es si un mismo request va a llegar duplicado, sino cuándo. La idempotencia es lo que hace que eso no importe. En este post vemos el problema, los patrones para resolverlo y un ejemplo concreto en Go.'
+title: 'Idempotencia: cómo diseñar sistemas que sobreviven a los reintentos'
+summary: 'Un timeout, una conexión caída, un usuario impaciente: cualquiera de esos puede hacer que el mismo request llegue dos veces. La idempotencia es lo que hace que eso no importe. Patrones, casos reales y ejemplos en Go.'
 date: '2026-06-14'
 draft: false
 tags:
@@ -47,7 +47,7 @@ Antes que nada vale la pena entender qué operaciones HTTP son naturalmente idem
 - **PUT:** Idempotente por diseño. `PUT /users/1` con el mismo body siempre deja al usuario en el mismo estado.
 - **DELETE:** Borrar algo que ya fue borrado debería simplemente no hacer nada (o devolver 404).
 
-La mayoría de las operaciones críticas de un sistema (crear un pago, registrar un usuario, emitir una factura, etc) son **POST** y ninguna de ellas es idempotente de forma natural. Hay que hacerlas idempotentes explícitamente. Pero, ¿cómo se logra eso?
+La mayoría de las operaciones críticas de un sistema (crear un pago, registrar un usuario, emitir una factura, etc) son **POST** y ninguna de ellas es idempotente de forma natural. Hay que hacerlas idempotentes explícitamente.
 
 # ¿Cómo se implementa en la práctica?
 
@@ -155,13 +155,13 @@ Diseñar sistemas con idempotencia tiene consecuencias concretas que van más al
 # Detalles que importan en producción
 La implementación básica es sencilla, pero hay algunos edge cases que vale considerar antes de llevar esto a un sistema real.
 
-- **¿Qué pasa si llega la misma key con un body diferente?** La convención es devolver un `409 Conflict`. Si el cliente manda la misma key con parámetros distintos, algo está mal de su lado y no se debería procesar el request.
-- **¿Cuánto tiempo se guarda la key?** Depende del dominio y no hay una respuesta universal. Pueden ser minutos, horas o días. La pregunta que tenés que hacerte es: ¿a partir de cuándo un reintento deja de ser un reintento y pasa a ser una operación nueva?
-- **¿Qué pasa si dos requests con la misma key llegan exactamente al mismo tiempo?** La solución está en la arquitectura del código aplicando Optimistic Locking: en lugar de verificar si la key existe y después guardarla (dos operaciones separadas donde se pueden generar race conditions), se puede intentar escribir directamente con un insert atómico. Si se tiene éxito, este request procesa la operación. Si falla porque la key ya existe, significa que otro request llegó primero y se devuelve el resultado que ese primer request ya guardó. Sin bloqueos, sin esperas.
+- **¿Qué pasa si llega la misma key con un body diferente?** No hay una única respuesta correcta: podés ignorar el segundo request y devolver el resultado original, devolver un error, o loguear la inconsistencia para investigarla. La convención más adoptada es devolver un `409 Conflict`, que le indica al cliente que algo está mal de su lado y que el request no va a ser procesado.
+- **¿Cuánto tiempo se guarda la key?** Depende del dominio: pueden ser minutos, horas o días. La pregunta que vale hacerse es: ¿a partir de cuándo un reintento deja de ser un reintento y pasa a ser una operación nueva?
+- **¿Qué pasa si dos requests con la misma key llegan exactamente al mismo tiempo?** La solución es una escritura atómica: en lugar de verificar si la key existe y después guardarla (dos operaciones separadas donde se pueden generar race conditions), se intenta escribir directamente usando una operación que la base de datos o el store garantiza como indivisible. Si se tiene éxito, este request procesa la operación. Si falla porque la key ya existe, significa que otro request llegó primero y se devuelve el resultado que ese primer request ya guardó. Sin bloqueos, sin esperas.
 
 # Conclusión
 La idempotencia no es un detalle de implementación, es una decisión de diseño. Y como la mayoría de las buenas decisiones de diseño, es invisible cuando está bien hecha: el usuario aprieta "Confirmar" dos veces y simplemente funciona.
 
-La próxima vez que diseñes un endpoint POST, la pregunta que vale la pena hacerse antes de escribir la primera línea es: ¿qué pasa si este request llega dos veces? Si la respuesta no es "el mismo resultado", hay trabajo por hacer.
+La próxima vez que diseñes un endpoint POST, la pregunta que vale la pena hacerse antes de escribir la primera línea es: ¿qué pasa si el mismo request llega dos veces? Hacerse esa pregunta en el momento de diseño cuesta mucho menos que responderla en producción.
 
 Gracias por leer, nos vemos en la próxima entrega 👋
