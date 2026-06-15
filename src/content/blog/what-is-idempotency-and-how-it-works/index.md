@@ -15,7 +15,7 @@ tags:
 
 La definición de idempotencia dice que es **la propiedad para realizar una acción determinada varias veces y aun así conseguir el mismo resultado que se obtendría si se realizase una sola vez**. Hay un ejemplo de la vida cotidiana que explica esto de manera perfecta:
 
-Cuando estás esperando el ascensor y apretás el botón, ¿qué pasa si lo apretás de nuevo? Nada. El ascensor ya fue llamado. La segunda vez que apretás el botón, el sistema lo ignora po rque el efecto ya fue producido. No importa cuántas veces lo toques el resultado siempre es el mismo.
+Cuando estás esperando el ascensor y apretás el botón, ¿qué pasa si lo apretás de nuevo? Nada. El ascensor ya fue llamado. La segunda vez que apretás el botón, el sistema lo ignora porque el efecto ya fue producido. No importa cuántas veces lo toques el resultado siempre es el mismo.
 
 Eso es la idempotencia. Una operación es idempotente cuando ejecutarla una vez tiene el mismo efecto que ejecutarla múltiples veces.
 
@@ -56,30 +56,33 @@ Veamos cómo se vería esto en un handler de Go. El flujo es simple: si la key y
 
 ```go
 func HandlePayment(w http.ResponseWriter, r *http.Request) {
-    // Se obtiene el valor dentro del header
+    // Cada request debe incluir una Idempotency-Key en el header.
+    // Esta key puede ser un UUID generado por el cliente que identifica la operación.
     key := r.Header.Get("Idempotency-Key")
     if key == "" {
         http.Error(w, "Idempotency-Key requerida", http.StatusBadRequest)
         return
     }
 
-    // ¿Ya se procesó este request?
-    if cached, err := redisClient.Get(ctx, key).Result(); err == nil {
-        // En caso que si ya se haya procesado, se devuelve la petición cacheada
-        w.Header().Set("Content-Type", "application/json")
-        w.Write([]byte(cached))
+    // Buscamos la key en el store. Si existe, significa que ya procesamos
+    // este request anteriormente y tenemos el resultado guardado.
+    // En ese caso, lo devolvemos directamente sin volver a procesar nada.
+    cached, err := store.Get(ctx, key)
+    if err == nil {
+        writeJSON(w, http.StatusOK, cached)
         return
     }
 
-    // Se procesa y se guarda el resultado
-    response := processPayment(r)
-    data, _ := json.Marshal(response)
-    redisClient.Set(ctx, key, string(data), 24*time.Hour)
+    // La key no existe: es la primera vez que vemos este request.
+    // Procesamos la operación normalmente.
+    result := processPayment(r)
 
-    // Se genera y devuelve la response
-    w.Header().Set("Content-Type", "application/json")
-    w.WriteHeader(http.StatusCreated)
-    w.Write(data)
+    // Guardamos el resultado asociado a la key antes de responder.
+    // Así, si el cliente reintenta con la misma key, devolvemos
+    // este resultado sin ejecutar processPayment() de nuevo.
+    store.Set(ctx, key, result, 24*time.Hour)
+
+    writeJSON(w, http.StatusCreated, result)
 }
 ```
 
@@ -94,7 +97,7 @@ Si ya existe, le damos ACK a la cola pero ignoramos el evento (ya fue procesado)
 La implementación básica es sencilla, pero hay algunos edge cases que vale considerar antes de llevar esto a un sistema real.
 
 - **¿Qué pasa si llega la misma key con un body diferente?** La convención es devolver un `409 Conflict`. Si el cliente manda la misma key con parámetros distintos, algo está mal de su lado y no se debería procesar el request.
-- **¿Cuánto tiempo guardás se guarda la key?** Depende del dominio y no hay una respuesta universal. Pueden ser minutos, horas o días. La pregunta que tenés que hacerte es: ¿a partir de cuándo un reintento deja de ser un reintento y pasa a ser una operación nueva?
+- **¿Cuánto tiempo se guarda la key?** Depende del dominio y no hay una respuesta universal. Pueden ser minutos, horas o días. La pregunta que tenés que hacerte es: ¿a partir de cuándo un reintento deja de ser un reintento y pasa a ser una operación nueva?
 - **¿Qué pasa si dos requests con la misma key llegan exactamente al mismo tiempo?** La solución está en la arquitectura del código aplicando Optimistic Locking: en lugar de verificar si la key existe y después guardarla (dos operaciones separadas donde se pueden generar race conditions), se puede intentar escribir directamente con un insert atómico. Si se tiene éxito, este request procesa la operación. Si falla porque la key ya existe, significa que otro request llegó primero y se devuelve el resultado que ese primer request ya guardó. Sin bloqueos, sin esperas.
 
 # Conclusión
