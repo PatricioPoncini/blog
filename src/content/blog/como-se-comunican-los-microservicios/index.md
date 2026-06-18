@@ -25,18 +25,13 @@ tags:
 - [Conclusión](#conclusión)
 
 # Del monolito al microservicio
-Cuando comenzamos a desarrollar, generalmente hacemos todo en un mismo servicio. El clásico proyecto de "ToDo List": crear notas, completarlas, editarlas, eliminarlas. Simple, con ejemplos sacados de páginas web o tutoriales
-de YouTube, pero que sirvió (y sigue sirviendo) para dar los primeros pasos en el mundo de la programación.
+Cuando comenzamos a desarrollar, generalmente hacemos todo en un mismo servicio. El clásico proyecto de "ToDo List": crear notas, completarlas, editarlas, eliminarlas. Simple, con ejemplos sacados de páginas web o tutoriales de YouTube, pero que sirvió (y sigue sirviendo) para dar los primeros pasos en el mundo de la programación.
 
-Pero, ¿qué pasa cuando necesitamos desarrollar software que usan miles de personas al mismo tiempo, que impacta de manera real en sus vidas y que necesita seguir creciendo sin romperse?
+Y está bien que así sea. Un monolito bien hecho es perfectamente válido para muchos sistemas, y no hay nada de malo en empezar por ahí.
 
-Ahí es donde el modelo de "todo en un solo servicio" empieza a crujir. Las tablas crecen, las responsabilidades se mezclan y cualquier cambio en una parte del sistema puede romper algo completamente distinto. Lo que antes era
-simple de mantener, ahora se vuelve difícil de escalar, de testear y de entender.
+Pero cuando el sistema crece, ya sea en usuarios, en funcionalidades o en equipos trabajando sobre él, muchas empresas optan por dividirlo en partes más pequeñas e independientes: los **microservicios**. Cada uno con su propia responsabilidad, su propio ciclo de vida y, muchas veces, su propio equipo detrás. Esto permite escalar, desplegar y mantener cada parte de forma independiente.
 
-Una de las respuestas más comunes a este problema en la industria es dividir ese sistema grande en partes más pequeñas e independientes: los microservicios. Cada uno con su propia responsabilidad, su propio ciclo de vida y,
-muchas veces, su propio equipo detrás.
-
-Pero esta separación trae una pregunta nueva: si antes todo estaba junto y se comunicaba a través de llamadas internas, ahora que está separado ¿cómo se comunican entre ellos?
+Y esa separación trae una pregunta nueva: si antes todo estaba junto y se comunicaba a través de llamadas internas, ahora que está separado... ¿cómo se comunican entre ellos?
 
 # Cómo se comunican los microservicios: Comunicación sincrónica vs asincrónica
 Antes de ver cada tecnología, es importante entender la diferencia entre estos dos modelos, porque define cómo los servicios se relacionan entre sí.
