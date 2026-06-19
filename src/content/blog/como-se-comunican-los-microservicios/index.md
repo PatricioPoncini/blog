@@ -82,6 +82,8 @@ Del otro lado, el servicio **B** escucha ese intermediario y procesa el mensaje 
 ## API REST
 REST se basa en el protocolo HTTP y es la forma más extendida de comunicación entre servicios. Cada servicio expone endpoints a los que otros pueden llamar usando los métodos estándar: `GET` para obtener datos, `POST` para crear, `PUT` o `PATCH` para modificar, y `DELETE` para eliminar. Las respuestas viajan en formato JSON, que es legible y fácil de trabajar desde cualquier lenguaje.
 
+![alt text](/photos/rest.png)
+
 ### ¿Cuándo usarlo?
 REST es una buena opción cuando la respuesta importa en el momento: validar datos, consultar información antes de continuar, o cuando el flujo depende del resultado de otro servicio. También es la opción natural cuando ya tenés equipos familiarizados con HTTP y no necesitás optimizar al máximo la performance de la comunicación.
 
@@ -111,6 +113,8 @@ func getAuthorProfile(userID string) (string, error) {
 
 ## Colas de mensajería
 Las colas de mensajería son un intermediario entre servicios: el servicio **A** deposita un mensaje en la cola y el servicio **B** lo consume cuando está listo. RabbitMQ y Amazon SQS son dos de las implementaciones más comunes. La cola garantiza que el mensaje no se pierda aunque **B** esté caído en el momento del envío.
+
+![alt text](/photos/queue.jpeg)
 
 ### ¿Cuándo usarlo?
 
@@ -144,13 +148,6 @@ func consumeNewPosts(ch *amqp.Channel) {
 }
 ```
 
-
-## Extra: ¿Sabías que existe gRPC?
-
-Además de REST y las colas, existe una tercera opción que vale la pena mencionar: **gRPC**. Es un protocolo desarrollado por Google que reemplaza JSON por buffers binarios (Protocol Buffers), lo que lo hace considerablemente más rápido. Los contratos entre servicios se definen en archivos `.proto`, con tipado estricto.
-
-No es algo que vayas a ver en la mayoría de los proyectos, y está bien que así sea. Su adopción tiene sentido en sistemas con altísimo volumen de llamadas internas donde la latencia es un cuello de botella real. Fuera de ese contexto, la complejidad que agrega (archivos `.proto`, generación de código, curva de aprendizaje) generalmente no justifica el cambio.
-
 ## ¿Cuál elegir?
 
 | | REST | Colas de mensajería |
@@ -162,6 +159,13 @@ No es algo que vayas a ver en la mayoría de los proyectos, y está bien que as�
 | **Complejidad** | Baja | Media |
 | **Mejor para** | Consultas que necesitan respuesta inmediata | Procesos diferidos, notificaciones, eventos |
 | **Ejemplo común** | Verificar datos antes de continuar un flujo | Notificar seguidores tras publicar un post |
+
+## Extra: ¿Sabías que existe gRPC?
+
+Además de REST y las colas, existe una tercera opción que vale la pena mencionar: **gRPC**. Es un protocolo desarrollado por Google que reemplaza JSON por buffers binarios (Protocol Buffers), lo que lo hace considerablemente más rápido. Los contratos entre servicios se definen en archivos `.proto`, con tipado estricto.
+
+No es algo que vayas a ver en la mayoría de los proyectos, y está bien que así sea. Su adopción tiene sentido en sistemas con altísimo volumen de llamadas internas donde la latencia es un cuello de botella real. Fuera de ese contexto, la complejidad que agrega (archivos `.proto`, generación de código, curva de aprendizaje) generalmente no justifica el cambio.
+
 
 ## Conclusión
 
