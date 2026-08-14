@@ -1,0 +1,58 @@
+---
+title: '¿Cómo escondía Julio César sus mensajes de guerra? El truco que dio origen a la criptografía'
+summary: 'Mucho antes de AES o RSA, un general romano ya tenía un problema: cómo mandar órdenes sin que el enemigo las entendiera si el mensajero era interceptado. La solución fue tan simple que hoy la rompés en segundos, pero sentó las bases de todo lo que hoy llamamos criptografía.'
+date: '2026-08-13'
+draft: false
+tags:
+  - Cryptography
+  - Security
+  - Algorithms
+  - ComputerScience
+---
+
+import CaesarCipherDemo from '@components/CaesarCipherDemo.tsx'
+
+# Contenido
+- [¿Qué es el cifrado César?](#qué-es-el-cifrado-césar)
+- [¿Por qué lleva este nombre?](#por-qué-lleva-este-nombre)
+- [Un ejemplo paso a paso](#un-ejemplo-paso-a-paso)
+- [¿Para qué sirve (y para qué no) hoy?](#para-qué-sirve-y-para-qué-no-hoy)
+- [Cómo se relaciona con la criptografía moderna](#cómo-se-relaciona-con-la-criptografía-moderna)
+- [Probá el cifrado César en vivo](#probá-el-cifrado-césar-en-vivo)
+- [Conclusión](#conclusión)
+
+# ¿Qué es el cifrado César?
+Es una de las técnicas más simples y viejas de encriptar un mensaje. Su funcionamiento se basa en desplazar las letras de cada palabra un número fijo de veces hacia adelante en el alfabeto. Por ejemplo, la letra "t" encriptada en cifrado César sería "x" moviéndonos 4 veces en el alfabeto. Una nota importante de este cifrado es que solo puede elegirse hasta el número 25 para desplazarse, ya que el alfabeto inglés tiene 26 letras, y ese es el límite antes de volver a empezar desde la primera letra.
+
+# ¿Por qué lleva este nombre?
+
+Esta técnica fue utilizada por Julio César para enviar mensajes encriptados de contenido militar. Si el mensajero era interceptado, no sabrían que era lo que contenía el mensaje porque, a primera vista, eran letras al azar.
+
+Hoy en día no se utiliza más que para poner de ejemplo y mostrar como fue que este cifrado sentó las bases de lo que hoy conocemos como criptografía, dado que es muy fácil de decodificar por fuerza bruta.
+
+# Un ejemplo paso a paso
+Tomemos el ejemplo anteriormente mencionado de la frase "hello world" y usemos 3 desplazamientos hacia adelante en el alfabeto.
+
+![Ejemplo de cifrado César](/photos/caesar_cipher.jpg)
+
+# ¿Para qué sirve (y para qué no) hoy?
+En realidad esto es un cifrado por sustitución, por lo que significa que cada letra es reemplazada por otra en texto plano. Hoy en día no tiene punto de comparación contra los algoritmos matemáticos de encriptación que utilizan los sistemas webs modernos. Pero sigue sirviendo para mostrar de manera muy básica (y palpable, ya que es algo que se puede hacer hasta en una hoja de papel) como funciona la encriptación.
+
+# Cómo se relaciona con la criptografía moderna
+Aunque hoy el César no sirva para proteger nada en serio, es el punto de partida de casi todo lo que forma la criptografía: la idea de tomar un **texto plano** (el mensaje original), aplicarle una **clave** (en este caso, la cantidad de movimientos) y obtener un **texto cifrado** que solo puede revertirse si conocés esa clave. Ese esquema básico   es el mismo que usan AES o RSA por dentro.
+
+La diferencia está en la complejidad matemática, no en la idea. El César tiene una sola clave posible entre 26 valores, así que romperlo es cuestión de probarlos todos a mano en un par de minutos. Los algoritmos modernos usan claves de cientos de bits y operaciones matemáticas mucho más difíciles de revertir sin la clave correcta, lo que hace que probar todas las combinaciones sea inviable incluso para una computadora.
+
+Entre el César y AES hubo siglos de iteración: cifrados polialfabéticos como el de Vigenère, máquinas mecánicas como Enigma, y finalmente los algoritmos computacionales que usamos hoy. Pero la pregunta de fondo que todos intentan responder sigue siendo la misma que se hacían hace miles de años: cómo transformar un mensaje para que solo el destinatario correcto pueda leerlo.
+
+# Probá el cifrado César en vivo
+Nada mejor para entender un concepto que probarlo con las manos. Escribí un texto, elegí cuántas posiciones desplazar el alfabeto y mirá cómo se transforma. 
+
+<CaesarCipherDemo client:load />
+
+# Conclusión
+El cifrado César es viejo, es simple, y hoy no protege absolutamente nada. Pero ahí está la gracia: dos mil años después, la criptografía moderna sigue resolviendo exactamente el mismo problema que resolvía un general romano con un pergamino y un alfabeto corrido. Cambió la matemática, cambió la escala, pero la pregunta de fondo sigue siendo la misma: cómo esconder un mensaje para que solo el destinatario correcto lo entienda.
+
+El mérito nunca fue ser un cifrado fuerte. Fue ser el primero en plantear la pregunta correcta.
+
+Gracias por leer, nos vemos en la próxima entrega 👋
