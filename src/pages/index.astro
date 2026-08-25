@@ -89,11 +89,26 @@ const stack = [
               Creando tecnología con propósito humano.
           </p>
           <div id="ctaButtons" class='animated flex flex-wrap gap-4 justify-center mt-5'>
-            <a href='/blog' class='py-2 px-4 rounded truncate text-xs md:text-sm lg:text-base bg-black dark:bg-white text-white dark:text-black hover:opacity-75 blend'>
-              Explorar mi blog
+            <a href='/blog' class='group inline-flex items-center gap-2 py-2 pl-4 pr-3 rounded-full text-xs md:text-sm lg:text-base bg-black dark:bg-white text-white dark:text-black hover:opacity-75 blend'>
+              <span>Explorar mi blog</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="stroke-current">
+                <line x1="5" y1="12" x2="19" y2="12" class="scale-x-0 group-hover:scale-x-100 translate-x-4 group-hover:translate-x-1 transition-all duration-300 ease-in-out" />
+                <polyline points="12 5 19 12 12 19" class="translate-x-0 group-hover:translate-x-1 transition-all duration-300 ease-in-out" />
+              </svg>
             </a>
-            <a href='/work' class='py-2 px-4 truncate rounded text-xs md:text-sm lg:text-base border border-black/25 dark:border-white/25 hover:bg-black/5 hover:dark:bg-white/15 blend'>
-              Experiencia
+            <a href='/work' class='group inline-flex items-center gap-2 py-2 pl-4 pr-3 rounded-full text-xs md:text-sm lg:text-base border border-black/25 dark:border-white/25 hover:bg-black/5 hover:dark:bg-white/15 text-black dark:text-white blend'>
+              <span>Experiencia</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="stroke-current">
+                <line x1="5" y1="12" x2="19" y2="12" class="scale-x-0 group-hover:scale-x-100 translate-x-4 group-hover:translate-x-1 transition-all duration-300 ease-in-out" />
+                <polyline points="12 5 19 12 12 19" class="translate-x-0 group-hover:translate-x-1 transition-all duration-300 ease-in-out" />
+              </svg>
+            </a>
+            <a href='/about' class='group inline-flex items-center gap-2 py-2 pl-4 pr-3 rounded-full text-xs md:text-sm lg:text-base border border-black/25 dark:border-white/25 hover:bg-black/5 hover:dark:bg-white/15 text-black dark:text-white blend'>
+              <span>Sobre mí</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="stroke-current">
+                <line x1="5" y1="12" x2="19" y2="12" class="scale-x-0 group-hover:scale-x-100 translate-x-4 group-hover:translate-x-1 transition-all duration-300 ease-in-out" />
+                <polyline points="12 5 19 12 12 19" class="translate-x-0 group-hover:translate-x-1 transition-all duration-300 ease-in-out" />
+              </svg>
             </a>
           </div>
         </div>
@@ -106,17 +121,37 @@ const stack = [
 
       <!-- About Section -->
         <section class="animate">
-            <article>
-                Soy Patricio Poncini, <b>Desarrollador Backend</b> y <b>Técnico en Programación</b>. Mi trabajo se centra en diseñar y desarrollar sistemas distribuidos y servicios de alto rendimiento utilizando <b>Kotlin, Go y TypeScript</b>.
-
-                <p>Mi enfoque combina la solidez técnica con un sentido práctico del desarrollo. Entiendo que las buenas prácticas, el testing y un diseño arquitectónico limpio no son fines en sí mismos, sino las herramientas necesarias para construir software que sea mantenible y que permita al negocio evolucionar con agilidad, evitando deudas técnicas innecesarias.</p>
-
-                <p>Cuento con experiencia desarrollando soluciones diversas, desde herramientas de automatización y CLIs hasta arquitecturas completas en la nube integradas con sistemas de mensajería y bases de datos. En cada proyecto, mi prioridad es encontrar el equilibrio justo entre la excelencia técnica y la entrega de valor real.</p>
-
-                <p>Actualmente continúo perfeccionando mis habilidades en sistemas distribuidos, buenas prácticas de ingeniería y patrones de diseño que permitan construir software confiable y fácil de escalar.</p>
-
-                <p>Mi filosofía de trabajo se resume en: <b><i>"First, solve the problem. Then, write the code."</i></b></p>
-            </article>
+            <p>
+                Soy Patricio Poncini, <b>Desarrollador Backend</b> y <b>Técnico en Programación</b>. Diseño y desarrollo sistemas distribuidos y servicios de alto rendimiento con <b>Kotlin, Go y TypeScript</b>, buscando siempre el equilibrio entre excelencia técnica y valor real para el negocio.
+            </p>
+            <a href="/about" class="mt-4 w-fit group inline-flex items-center gap-2 py-2 pl-4 pr-3 rounded-full border border-black/15 dark:border-white/20 hover:bg-black/5 hover:dark:bg-white/10 text-black dark:text-white blend">
+              <span class="text-sm">
+                Conocé más sobre mí
+              </span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="stroke-current"
+              >
+                <line
+                  x1="5"
+                  y1="12"
+                  x2="19"
+                  y2="12"
+                  class="scale-x-0 group-hover:scale-x-100 translate-x-4 group-hover:translate-x-1 transition-all duration-300 ease-in-out"
+                />
+                <polyline
+                  points="12 5 19 12 12 19"
+                  class="translate-x-0 group-hover:translate-x-1 transition-all duration-300 ease-in-out"
+                />
+              </svg>
+            </a>
         </section>
 
         <!-- Blog Preview Section -->
@@ -172,7 +207,7 @@ const stack = [
             Conectemos
           </p>
           <p>
-            Me podes contactar por correo electrónico, o encontrarme en mis redes sociales
+            Me podes contactar por correo electrónico, o encontrarme en mis redes sociales.
           </p>
           <div class="grid grid-cols-4 gap-y-2 mt-4 auto-cols-min">
             {SOCIALS.map(social => (

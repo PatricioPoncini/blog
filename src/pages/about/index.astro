@@ -1,0 +1,69 @@
+---
+import PageLayout from '@layouts/PageLayout.astro'
+import TopLayout from '@layouts/TopLayout.astro'
+import BottomLayout from '@layouts/BottomLayout.astro'
+import { ABOUT, SOCIALS } from '@consts'
+---
+
+<PageLayout title={ABOUT.TITLE} description={ABOUT.DESCRIPTION}>
+  <TopLayout>
+    <div class="animate">
+      <h1 class="text-3xl font-semibold text-black dark:text-white mt-2">
+        {ABOUT.TITLE}
+      </h1>
+      <div class="mt-1">
+        {ABOUT.DESCRIPTION}
+      </div>
+    </div>
+  </TopLayout>
+  <BottomLayout>
+    <section class="animate flex flex-col md:flex-row gap-8 items-center md:items-start">
+      <img
+        src="/profile_pic.png"
+        alt="Foto de Patricio Poncini"
+        class="size-40 md:size-48 rounded-full object-cover border border-black/10 dark:border-white/25 shrink-0"
+      />
+      <article>
+        Soy Patricio Poncini, <b>Desarrollador Backend</b> y <b>Técnico en Programación</b>. Mi trabajo se centra en diseñar y desarrollar sistemas distribuidos y servicios de alto rendimiento utilizando <b>Kotlin, Go y TypeScript</b>.
+
+        <p>Mi enfoque combina la solidez técnica con un sentido práctico del desarrollo. Entiendo que las buenas prácticas, el testing y un diseño arquitectónico limpio no son fines en sí mismos, sino las herramientas necesarias para construir software que sea mantenible y que permita al negocio evolucionar con agilidad, evitando deudas técnicas innecesarias.</p>
+
+        <p>Cuento con experiencia desarrollando soluciones diversas, desde herramientas de automatización y CLIs hasta arquitecturas completas en la nube integradas con sistemas de mensajería y bases de datos. En cada proyecto, mi prioridad es encontrar el equilibrio justo entre la excelencia técnica y la entrega de valor real.</p>
+
+        <p>Actualmente continúo perfeccionando mis habilidades en sistemas distribuidos, buenas prácticas de ingeniería y patrones de diseño que permitan construir software confiable y fácil de escalar.</p>
+
+        <p>Mi filosofía de trabajo se resume en: <b><i>"First, solve the problem. Then, write the code."</i></b></p>
+      </article>
+    </section>
+
+    <section class="animate mt-12">
+      <p class="font-semibold text-black dark:text-white text-xl">
+        Contacto
+      </p>
+      <p class="mt-1">
+        Me podes contactar por correo electrónico, o encontrarme en mis redes sociales.
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+        {SOCIALS.map(social => (
+          <a
+            href={social.HREF}
+            target="_blank"
+            class="group flex flex-col gap-3 p-5 rounded-xl border border-black/10 dark:border-white/25 hover:border-black/30 dark:hover:border-white/50 hover:bg-black/5 dark:hover:bg-white/5 blend"
+          >
+            <svg class="size-8 fill-current group-hover:fill-black group-hover:dark:fill-white blend">
+              <use href={`/social.svg#${social.ICON}`} />
+            </svg>
+            <div>
+              <div class="font-semibold text-black dark:text-white">
+                {social.NAME}
+              </div>
+              <div class="text-sm truncate text-black/75 dark:text-white/75">
+                {social.TEXT}
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  </BottomLayout>
+</PageLayout>

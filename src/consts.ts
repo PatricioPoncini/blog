@@ -11,7 +11,7 @@ export const SITE: Site = {
 // Work Page
 export const WORK: Page = {
   TITLE: 'Mi experiencia',
-  DESCRIPTION: 'Lugares donde he trabajado',
+  DESCRIPTION: 'Lugares donde he trabajado.',
 }
 
 // Blog Page
@@ -32,11 +32,21 @@ export const SEARCH: Page = {
   DESCRIPTION: 'Aquí puedes buscar tópicos de tu interés',
 }
 
+// About Page
+export const ABOUT: Page = {
+  TITLE: 'Sobre mí',
+  DESCRIPTION: 'Quién soy y a qué me dedico.',
+}
+
 // Links
 export const LINKS: Links = [
   {
     TEXT: 'Inicio',
     HREF: '/',
+  },
+  {
+    TEXT: 'Sobre mí',
+    HREF: '/about',
   },
   {
     TEXT: 'Experiencia',
