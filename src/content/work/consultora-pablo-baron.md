@@ -12,6 +12,8 @@ technologies:
   - Tailwind CSS
 ---
 
+Participé desde el inicio como backend developer en el diseño y desarrollo de una oficina virtual para vecinos, que permite a las municipalidades ofrecer trámites y servicios en línea:
+
 - Desarrollo y mantenimiento de APIs RESTful con Node.js, Express, TypeScript y TypeORM.
 - Gestión y optimización de bases de datos en MySQL, asegurando integridad y eficiencia en las
   consultas.

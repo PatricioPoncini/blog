@@ -16,6 +16,8 @@ technologies:
   - Docker
 ---
 
+Me desempeñé como backend developer, con un rol de liderazgo en el desarrollo del sistema de rankings de usuarios, y participación adicional en frontend:
+
 - Liderado del equipo de backend en el diseño, optimización y mantenimiento de microservicios, impulsando nuevas funcionalidades para mejorar el rendimiento y la fiabilidad de la plataforma.
 - Desarrollo de microservicios backend con un enfoque en escalabilidad y eficiencia, utilizando TypeScript, Go y Rust.
 - Implementación de patrones de diseño distribuidos, como Saga, utilizando RabbitMQ para garantizar la fiabilidad en la comunicación entre microservicios y evitar fallos en las transacciones.
