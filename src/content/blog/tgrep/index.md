@@ -1,6 +1,6 @@
 ---
-title: 'tgrep: la herramienta de búsqueda que Microsoft armó pensando en los agentes de IA'
-summary: 'Microsoft publicó "tgrep", un grep en Rust que indexa un proyecto con trigramas y responde desde un servidor en vez de recorrer todos los archivos en cada búsqueda. Qué es, cómo funciona, cuánto más rápido es que ripgrep y en qué casos te conviene.'
+title: 'tgrep: el grep pensado para agentes de IA que ya viene integrado en GitHub Copilot CLI'
+summary: 'Un agente de IA puede hacer decenas de búsquedas en una sola tarea, y en un repositorio gigante cada una cuesta. tgrep, la herramienta de Microsoft que ya usa GitHub Copilot CLI, resuelve eso con un índice de trigramas. Cómo funciona y cómo le va contra ripgrep.'
 date: '2026-09-25'
 draft: false
 tags:
@@ -10,6 +10,13 @@ tags:
   - AI
   - Search
 ---
+
+## Contenido
+- [El problema](#el-problema)
+- [¿Qué es tgrep?](#qué-es-tgrep)
+- [¿Cómo funciona tgrep?](#cómo-funciona-tgrep)
+- [Prueba de benchmark](#prueba-de-benchmark)
+- [¿Conviene usarlo?](#conviene-usarlo)
 
 ## El problema
 En repositorios gigantes, donde hay miles y miles de archivos, `grep` y `ripgrep` (herramientas ya conocidas en el mundo IT) leen todos los archivos en cada búsqueda que se les pide. Esto tiene un problema y es la performance. Si bien se pueden ignorar archivos u optimizar la búsqueda con estas herramientas, muchas veces no alcanza.
