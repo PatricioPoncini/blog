@@ -1,5 +1,5 @@
 ---
-title: 'tgrep: el grep pensado para agentes de IA que ya viene integrado en GitHub Copilot CLI'
+title: 'tgrep: un buscador de código pensado para agentes de IA que ya viene integrado en GitHub Copilot CLI'
 summary: 'Un agente de IA puede hacer decenas de búsquedas en una sola tarea, y en un repositorio gigante cada una cuesta. tgrep, la herramienta de Microsoft que ya usa GitHub Copilot CLI, resuelve eso con un índice de trigramas. Cómo funciona y cómo le va contra ripgrep.'
 date: '2026-09-25'
 draft: false
