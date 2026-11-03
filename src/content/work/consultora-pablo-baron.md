@@ -1,7 +1,7 @@
 ---
 company: 'Consultora Pablo Barón'
-role: 'Software Engineer'
-dateStart: '2022-10-01'
+role: 'Backend Developer'
+dateStart: '2022-09-01'
 dateEnd: '2023-09-29'
 technologies:
   - Typescript
@@ -14,9 +14,17 @@ technologies:
   - Pinia
 ---
 
-Participé desde el inicio como backend developer en el diseño y desarrollo de una oficina virtual para vecinos, que permite a las municipalidades ofrecer trámites y servicios en línea:
+Backend Developer desde el inicio del proyecto en una oficina virtual para municipios, que permite a los vecinos realizar trámites y acceder a servicios en línea.
 
-- Desarrollé y mantuve APIs RESTful con Node.js, Express, TypeScript y TypeORM.
-- Gestioné y optimicé bases de datos en MySQL, asegurando integridad y eficiencia en las consultas.
-- Desplegué y administré APIs mediante servicios de infraestructura gestionada.
-- Colaboré con el equipo de frontend en la integración de los servicios con Vue.js, Pinia y TailwindCSS.
+**Responsabilidades clave**
+
+- Diseño y desarrollo de APIs RESTful con Node.js, Express, TypeScript y TypeORM.
+- Modelado y optimización de bases de datos MySQL, asegurando la integridad de los datos y la eficiencia de las consultas.
+- Despliegue y administración de las APIs sobre servicios de infraestructura gestionada.
+- Integración de los servicios con el equipo de frontend (Vue.js, Pinia y TailwindCSS).
+
+**Logros principales**
+
+- **Digitalización de trámites:** el 90% de los trámites municipales pasó de ser presencial a realizarse en línea.
+- **Adopción:** la plataforma fue implementada en 4 municipios.
+- **Atención al vecino:** se habilitó un canal digital para presentar reclamos y solicitar servicios sin necesidad de acercarse a la municipalidad.
