@@ -1,19 +1,22 @@
-import type { CollectionEntry } from 'astro:content'
 import { createEffect, createSignal } from 'solid-js'
 import Fuse from 'fuse.js'
-import ArrowCard from '@components/ArrowCard'
+import ArrowCard, { type CardEntry } from '@components/ArrowCard'
 import SearchBar from '@components/SearchBar'
+import { format } from '@i18n/paths'
+import { ui, type Lang } from '@i18n/ui'
 
 type Props = {
-  data: CollectionEntry<'blog'>[]
+  data: CardEntry[]
+  lang: Lang
 }
 
-export default function Search({ data }: Props) {
+export default function Search({ data, lang }: Props) {
+  const t = ui[lang]
   const [query, setQuery] = createSignal('')
-  const [results, setResults] = createSignal<CollectionEntry<'blog'>[]>([])
+  const [results, setResults] = createSignal<CardEntry[]>([])
 
   const fuse = new Fuse(data, {
-    keys: ['slug', 'data.title', 'data.summary', 'data.tags'],
+    keys: ['cleanSlug', 'data.title', 'data.summary', 'data.tags'],
     includeMatches: true,
     minMatchCharLength: 2,
     threshold: 0.4,
@@ -38,18 +41,18 @@ export default function Search({ data }: Props) {
         onSearchInput={onSearchInput}
         query={query}
         setQuery={setQuery}
-        placeholderText="¿Que estás buscando?"
+        placeholderText={t.search.placeholder}
       />
 
       {query().length >= 2 && results().length >= 1 && (
         <div class="mt-12">
           <div class="text-sm uppercase mb-2">
-            Found {results().length} results for {`'${query()}'`}
+            {format(t.search.found, { count: results().length })} {`'${query()}'`}
           </div>
           <ul class="flex flex-col gap-3">
             {results().map((result) => (
               <li>
-                <ArrowCard entry={result} pill={true} />
+                <ArrowCard entry={result} lang={lang} pill={true} />
               </li>
             ))}
           </ul>

@@ -1,26 +1,28 @@
-import type { CollectionEntry } from 'astro:content'
 import { createEffect, createSignal, For, onMount } from 'solid-js'
 import Fuse from 'fuse.js'
-import ArrowCard from '@components/ArrowCard'
+import ArrowCard, { type CardEntry } from '@components/ArrowCard'
 import { cn } from '@lib/utils'
 import SearchBar from '@components/SearchBar'
+import { format } from '@i18n/paths'
+import { ui, type Lang } from '@i18n/ui'
 
 type Props = {
-  entry_name: string
   tags: string[]
-  data: CollectionEntry<'blog'>[] | CollectionEntry<'projects'>[]
+  data: CardEntry[]
+  lang: Lang
 }
 
-export default function SearchCollection({ entry_name, data, tags }: Props) {
-  const coerced = data.map((entry) => entry as CollectionEntry<'blog'>)
+export default function SearchCollection({ data, tags, lang }: Props) {
+  const t = ui[lang]
+  const coerced = data
 
   const [query, setQuery] = createSignal('')
   const [filter, setFilter] = createSignal(new Set<string>())
-  const [collection, setCollection] = createSignal<CollectionEntry<'blog'>[]>([])
+  const [collection, setCollection] = createSignal<CardEntry[]>([])
   const [descending, setDescending] = createSignal(false)
 
   const fuse = new Fuse(coerced, {
-    keys: ['slug', 'data.title', 'data.summary', 'data.tags'],
+    keys: ['cleanSlug', 'data.title', 'data.summary', 'data.tags'],
     includeMatches: true,
     minMatchCharLength: 2,
     threshold: 0.4,
@@ -73,11 +75,13 @@ export default function SearchCollection({ entry_name, data, tags }: Props) {
             onSearchInput={onSearchInput}
             query={query}
             setQuery={setQuery}
-            placeholderText={`Buscar`}
+            placeholderText={t.search.filterPlaceholder}
           />
           {/* Tag Filters */}
           <div class="relative flex flex-row justify-between w-full">
-            <p class="text-sm font-semibold uppercase my-4 text-black dark:text-white">Tags</p>
+            <p class="text-sm font-semibold uppercase my-4 text-black dark:text-white">
+              {t.search.tags}
+            </p>
             {filter().size > 0 && (
               <button
                 onClick={clearFilters}
@@ -135,13 +139,15 @@ export default function SearchCollection({ entry_name, data, tags }: Props) {
           {/* Info Bar */}
           <div class="flex justify-between flex-row mb-2">
             <div class="text-sm uppercase">
-              MOSTRANDO {collection().length} DE {data.length}
+              {format(t.search.showing, { count: collection().length, total: data.length })}
             </div>
             <button
               onClick={toggleDescending}
               class="flex flex-row gap-1 stroke-neutral-400 dark:stroke-neutral-500 hover:stroke-neutral-600 hover:dark:stroke-neutral-300 text-neutral-400 dark:text-neutral-500 hover:text-neutral-600 hover:dark:text-neutral-300"
             >
-              <div class="text-sm uppercase">{descending() ? 'DESCENDENTE' : 'ASCENDENTE'}</div>
+              <div class="text-sm uppercase">
+                {descending() ? t.search.descending : t.search.ascending}
+              </div>
               <svg class="size-5 left-2 top-[0.45rem]">
                 <use
                   href={`/ui.svg#sort-descending`}
@@ -157,7 +163,7 @@ export default function SearchCollection({ entry_name, data, tags }: Props) {
           <ul class="flex flex-col gap-3">
             {collection().map((entry) => (
               <li>
-                <ArrowCard entry={entry} />
+                <ArrowCard entry={entry} lang={lang} />
               </li>
             ))}
           </ul>

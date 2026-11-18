@@ -1,0 +1,65 @@
+---
+title: "The Caesar cipher: humanity's first attempt to keep a secret"
+summary: 'Long before AES or RSA, a Roman general already had a problem: how to send orders the enemy could not understand if the messenger was captured. The solution was so simple that today you can break it in seconds, but it laid the foundations of everything we now call cryptography.'
+date: '2026-08-13'
+draft: false
+tags:
+  - Cryptography
+  - Security
+  - Algorithms
+  - ComputerScience
+---
+
+import CaesarCipherDemo from '@components/CaesarCipherDemo.tsx'
+
+# Contents
+
+- [What is the Caesar cipher?](#what-is-the-caesar-cipher)
+- [Why does it have this name?](#why-does-it-have-this-name)
+- [A step-by-step example](#a-step-by-step-example)
+- [What is it useful for (and not useful for) today?](#what-is-it-useful-for-and-not-useful-for-today)
+- [How it relates to modern cryptography](#how-it-relates-to-modern-cryptography)
+- [Try the Caesar cipher live](#try-the-caesar-cipher-live)
+- [Conclusion](#conclusion)
+
+# What is the Caesar cipher?
+
+It is one of the simplest and oldest techniques to encrypt a message. It works by **shifting each letter a fixed number of positions** forward in the alphabet. For example, the letter "t" encrypted with a Caesar cipher becomes "x" if we move 4 positions in the alphabet. One important note about this cipher is that you can only choose a shift of up to 25, because the English alphabet has 26 letters, and that is the limit before you start again from the first letter.
+
+# Why does it have this name?
+
+This technique was used by **Julius Caesar** to send encrypted military messages. If the messenger was captured, the enemy would not know what the message said because, at first sight, it looked like random letters.
+
+Today it is only used as an example, to show how this cipher laid the foundations of what we now know as cryptography, since it is very easy to break by **brute force**.
+
+# A step-by-step example
+
+Let's take the example of the phrase "hello world" and use a shift of 3 positions forward in the alphabet.
+
+![Caesar cipher example](/photos/caesar_cipher.jpg)
+
+# What is it useful for (and not useful for) today?
+
+This is actually a **substitution cipher**, which means each letter in the plain text is replaced by another one. Today it does not even come close to the mathematical encryption algorithms used by modern web systems. But it is still useful to show, in a very basic way (and a very tangible one, since you can even do it on a sheet of paper), how encryption works.
+
+# How it relates to modern cryptography
+
+Even though the Caesar cipher cannot protect anything serious today, it is the starting point of almost everything in cryptography: the idea of taking a **plain text** (the original message), applying a **key** (in this case, the number of shifts) and getting a **cipher text** that can only be reversed if you know that key. That basic scheme is the same one AES and RSA use internally.
+
+The difference is in the mathematical complexity, not in the idea. The Caesar cipher has a single key with only 26 possible values, so breaking it is just a matter of trying them all by hand in a couple of minutes. Modern algorithms use keys with hundreds of bits and math operations that are much harder to reverse without the right key, which makes trying every combination impossible even for a computer.
+
+Between Caesar and AES there were centuries of iteration: polyalphabetic ciphers like **Vigenère**, mechanical machines like **Enigma**, and finally the computer algorithms we use today. But the core question they all try to answer is still the same one people asked thousands of years ago: how to transform a message so that only the right recipient can read it.
+
+# Try the Caesar cipher live
+
+There is no better way to understand a concept than trying it yourself. Type a text, choose how many positions to shift the alphabet and see how it changes.
+
+<CaesarCipherDemo client:load lang="en" />
+
+# Conclusion
+
+The Caesar cipher is old, it is simple, and today it protects absolutely nothing. But that is the point: two thousand years later, modern cryptography is still solving exactly the same problem a Roman general solved with a scroll and a shifted alphabet. The math changed, the scale changed, but the core question is still the same: how to hide a message so that only the right recipient can understand it.
+
+Its value was never being a strong cipher. It was being the first to ask **the right question**.
+
+Thanks for reading, see you in the next one 👋

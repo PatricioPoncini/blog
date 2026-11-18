@@ -1,65 +1,12 @@
-import type { Site, Page, Links, Socials } from '@types'
+import type { Links, Socials } from '@types'
 
-// Global
-export const SITE: Site = {
-  TITLE: 'AxisDev',
-  DESCRIPTION:
-    'Bienvenido a mi blog, un espacio personal donde voy a compartir lo que aprendo mientras construyo cosas en el mundo del desarrollo.',
-  AUTHOR: 'Patricio Poncini',
-}
-
-// Work Page
-export const WORK: Page = {
-  TITLE: 'Mi experiencia',
-  DESCRIPTION: 'Lugares donde he trabajado.',
-}
-
-// Blog Page
-export const BLOG: Page = {
-  TITLE: 'Blog',
-  DESCRIPTION: 'Publicaciones sobre temas que me interesan o me resultan curiosos.',
-}
-
-// Projects Page
-export const PROJECTS: Page = {
-  TITLE: 'Mis proyectos',
-  DESCRIPTION: 'Proyectos personales que he desarrollado o que actualmente estoy construyendo.',
-}
-
-// Search Page
-export const SEARCH: Page = {
-  TITLE: 'Búsqueda',
-  DESCRIPTION: 'Aquí puedes buscar tópicos de tu interés',
-}
-
-// About Page
-export const ABOUT: Page = {
-  TITLE: 'Sobre mí',
-  DESCRIPTION: 'Quién soy y a qué me dedico.',
-}
-
-// Links
+// Navigation links (text comes from the i18n dictionary, href has no language prefix)
 export const LINKS: Links = [
-  {
-    TEXT: 'Inicio',
-    HREF: '/',
-  },
-  {
-    TEXT: 'Sobre mí',
-    HREF: '/about',
-  },
-  {
-    TEXT: 'Experiencia',
-    HREF: '/work',
-  },
-  {
-    TEXT: 'Blog',
-    HREF: '/blog',
-  },
-  {
-    TEXT: 'Proyectos',
-    HREF: '/projects',
-  },
+  { KEY: 'home', HREF: '/' },
+  { KEY: 'about', HREF: '/about' },
+  { KEY: 'work', HREF: '/work' },
+  { KEY: 'blog', HREF: '/blog' },
+  { KEY: 'projects', HREF: '/projects' },
 ]
 
 // Socials

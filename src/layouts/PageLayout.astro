@@ -4,14 +4,22 @@ import BaseHead from '@components/BaseHead.astro'
 import Header from '@components/Header.astro'
 import Footer from '@components/Footer.astro'
 import Drawer from '@components/Drawer.astro'
+import { getLang, useTranslations } from '@i18n/utils'
+
+interface Props {
+  title: string
+  description: string
+}
+
 const { title, description } = Astro.props
-import { SITE } from '@consts'
+const lang = getLang(Astro.url)
+const t = useTranslations(lang)
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
-    <BaseHead title={`${title} | ${SITE.TITLE}`} description={description} />
+    <BaseHead title={`${title} | ${t.site.title}`} description={description} />
   </head>
   <body>
     <Header />

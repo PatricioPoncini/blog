@@ -1,0 +1,16 @@
+---
+import EntryView from '@views/EntryView.astro'
+import { getLocalizedCollection } from '@i18n/utils'
+
+export async function getStaticPaths() {
+  const entries = await getLocalizedCollection('blog', 'en')
+  return entries.map((entry) => ({
+    params: { slug: entry.cleanSlug },
+    props: { entry },
+  }))
+}
+
+const { entry } = Astro.props
+---
+
+<EntryView entry={entry} />

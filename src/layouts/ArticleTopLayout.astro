@@ -1,12 +1,15 @@
 ---
 import type { CollectionEntry } from 'astro:content'
 import { formatDate, readingTime } from '@lib/utils'
+import { getLang, localizePath, useTranslations } from '@i18n/utils'
 
 type Props = {
   entry: CollectionEntry<'projects'> | CollectionEntry<'blog'>
 }
 
 const { entry } = Astro.props
+const lang = getLang(Astro.url)
+const t = useTranslations(lang)
 const { collection, data, body } = entry
 const { title, summary, date } = data
 
@@ -16,7 +19,7 @@ const repoUrl = collection === 'projects' ? data.repoUrl : null
 
 <div>
   <a
-    href={`/${collection}`}
+    href={localizePath(`/${collection}`, lang)}
     class="group w-fit p-1.5 gap-1.5 text-sm flex items-center border rounded hover:bg-black/5 hover:dark:bg-white/10 border-black/15 dark:border-white/20 transition-colors duration-300 ease-in-out"
   >
     <svg
@@ -45,7 +48,7 @@ const repoUrl = collection === 'projects' ? data.repoUrl : null
     <div
       class="w-full group-hover:text-black group-hover:dark:text-white transition-colors duration-300 ease-in-out"
     >
-      Volver
+      {t.article.back}
     </div>
   </a>
   <div class="flex flex-wrap text-sm uppercase mt-12 gap-3 opacity-75">
@@ -53,13 +56,13 @@ const repoUrl = collection === 'projects' ? data.repoUrl : null
       <svg class="size-5 stroke-current">
         <use href="/ui.svg#calendar"></use>
       </svg>
-      {formatDate(date)}
+      {formatDate(date, lang)}
     </div>
     <div class="flex items-center gap-2">
       <svg class="size-5 stroke-current">
         <use href="/ui.svg#book-open"></use>
       </svg>
-      {readingTime(body)}
+      {readingTime(body, t.article.readingTime)}
     </div>
   </div>
   <h1 class="text-3xl font-semibold text-black dark:text-white mt-2">
@@ -84,7 +87,7 @@ const repoUrl = collection === 'projects' ? data.repoUrl : null
               />
             </svg>
             <span class="text-current group-hover:text-black group-hover:dark:text-white blend">
-              See Demo
+              {t.article.demo}
             </span>
           </a>
         )}
@@ -101,7 +104,7 @@ const repoUrl = collection === 'projects' ? data.repoUrl : null
               />
             </svg>
             <span class="text-current group-hover:text-black group-hover:dark:text-white blend">
-              See Repository
+              {t.article.repo}
             </span>
           </a>
         )}

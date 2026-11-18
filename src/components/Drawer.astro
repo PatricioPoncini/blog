@@ -1,7 +1,12 @@
 ---
-import { SITE, LINKS } from '@consts'
+import { LINKS } from '@consts'
 import { cn } from '@lib/utils'
-const { pathname } = Astro.url
+import { getAlternatePath, getLang, localizePath, stripLangPrefix, useTranslations } from '@i18n/utils'
+
+const lang = getLang(Astro.url)
+const t = useTranslations(lang)
+const alternate = getAlternatePath(Astro.url)
+const pathname = stripLangPrefix(Astro.url.pathname).replace(/(.)\/$/, '$1')
 const subpath = pathname.match(/[^/]+/g)
 ---
 
@@ -13,7 +18,7 @@ const subpath = pathname.match(/[^/]+/g)
     {
       LINKS.map((LINK) => (
         <a
-          href={LINK.HREF}
+          href={localizePath(LINK.HREF, lang)}
           class={cn(
             'flex items-center justify-center px-3 py-1 rounded-full',
             'text-current hover:text-black dark:hover:text-white',
@@ -24,7 +29,7 @@ const subpath = pathname.match(/[^/]+/g)
               : ''
           )}
         >
-          {LINK.TEXT}
+          {t.nav[LINK.KEY]}
         </a>
       ))
     }
@@ -32,11 +37,11 @@ const subpath = pathname.match(/[^/]+/g)
 
   <div class="flex gap-1 mt-5">
     <a
-      href="/search"
-      aria-label={`Search blog posts and projects on ${SITE.TITLE}`}
+      href={localizePath('/search', lang)}
+      aria-label={`${t.a11y.search} ${t.site.title}`}
       class={cn(
         'size-9 rounded-full p-2 items-center justify-center bg-transparent hover:bg-black/5 dark:hover:bg-white/20 stroke-current hover:stroke-black hover:dark:stroke-white border border-black/10 dark:border-white/25 transition-colors duration-300 ease-in-out',
-        pathname === '/search' || '/' + subpath?.[0] === 'search'
+        pathname === '/search' || '/' + subpath?.[0] === '/search'
           ? 'pointer-events-none bg-black dark:bg-white text-white dark:text-black'
           : ''
       )}
@@ -46,9 +51,19 @@ const subpath = pathname.match(/[^/]+/g)
       </svg>
     </a>
 
+    <a
+      id="drawer-lang-button"
+      href={alternate.path}
+      hreflang={alternate.lang}
+      aria-label={t.a11y.language}
+      class="flex size-9 rounded-full p-2 items-center justify-center bg-transparent hover:bg-black/5 dark:hover:bg-white/20 text-xs font-semibold text-current hover:text-black dark:hover:text-white border border-black/10 dark:border-white/25 transition-colors duration-300 ease-in-out"
+    >
+      {t.langToggle}
+    </a>
+
     <button
       id="drawer-theme-button"
-      aria-label={`Toggle light and dark theme`}
+      aria-label={t.a11y.theme}
       class="size-9 rounded-full p-2 items-center justify-center bg-transparent hover:bg-black/5 dark:hover:bg-white/20 stroke-current hover:stroke-black hover:dark:stroke-white border border-black/10 dark:border-white/25 transition-colors duration-300 ease-in-out"
     >
       <svg class="block dark:hidden size-full">

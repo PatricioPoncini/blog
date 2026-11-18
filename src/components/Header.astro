@@ -1,9 +1,14 @@
 ---
-import { SITE, LINKS } from '@consts'
+import { LINKS } from '@consts'
 import { cn } from '@lib/utils'
-const { pathname } = Astro.url
-const subpath = pathname.match(/[^/]+/g)
 import Container from '@components/Container.astro'
+import { getAlternatePath, getLang, localizePath, stripLangPrefix, useTranslations } from '@i18n/utils'
+
+const lang = getLang(Astro.url)
+const t = useTranslations(lang)
+const alternate = getAlternatePath(Astro.url)
+const pathname = stripLangPrefix(Astro.url.pathname).replace(/(.)\/$/, '$1')
+const subpath = pathname.match(/[^/]+/g)
 ---
 
 <header id="header" class="fixed top-0 w-full h-16 z-50">
@@ -11,7 +16,7 @@ import Container from '@components/Container.astro'
     <div class="relative h-full w-full">
       <div class="absolute left-0 top-1/2 -translate-y-1/2 flex gap-1 font-semibold">
         <a
-            href="/"
+            href={localizePath('/', lang)}
             class="flex items-center gap-2 text-current hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out"
         >
           <img
@@ -20,7 +25,7 @@ import Container from '@components/Container.astro'
               class="size-7 object-contain"
           />
           <div>
-            {SITE.TITLE}
+            {t.site.title}
           </div>
         </a>
       </div>
@@ -30,7 +35,7 @@ import Container from '@components/Container.astro'
           {
             LINKS.map((LINK) => (
               <a
-                href={LINK.HREF}
+                href={localizePath(LINK.HREF, lang)}
                 class={cn(
                   'h-8 rounded-full px-3 text-current whitespace-nowrap',
                   'flex items-center justify-center',
@@ -40,7 +45,7 @@ import Container from '@components/Container.astro'
                     : 'hover:bg-black/5 dark:hover:bg-white/20 hover:text-black dark:hover:text-white'
                 )}
               >
-                {LINK.TEXT}
+                {t.nav[LINK.KEY]}
               </a>
             ))
           }
@@ -49,8 +54,8 @@ import Container from '@components/Container.astro'
 
       <div class="buttons absolute right-0 top-1/2 -translate-y-1/2 flex gap-1">
         <a
-          href="/search"
-          aria-label={`Search blog posts and projects on ${SITE.TITLE}`}
+          href={localizePath('/search', lang)}
+          aria-label={`${t.a11y.search} ${t.site.title}`}
           class={cn(
             'hidden md:flex',
             'size-9 rounded-full p-2 items-center justify-center',
@@ -68,9 +73,26 @@ import Container from '@components/Container.astro'
           </svg>
         </a>
 
+        <a
+          id="header-lang-button"
+          href={alternate.path}
+          hreflang={alternate.lang}
+          aria-label={t.a11y.language}
+          class={cn(
+            'hidden md:flex',
+            'size-9 rounded-full p-2 items-center justify-center',
+            'bg-transparent hover:bg-black/5 dark:hover:bg-white/20',
+            'text-xs font-semibold text-current hover:text-black dark:hover:text-white',
+            'border border-black/10 dark:border-white/25',
+            'transition-colors duration-300 ease-in-out'
+          )}
+        >
+          {t.langToggle}
+        </a>
+
         <button
           id="header-theme-button"
-          aria-label={`Toggle light and dark theme`}
+          aria-label={t.a11y.theme}
           class={cn(
             'hidden md:flex',
             'size-9 rounded-full p-2 items-center justify-center',
@@ -90,7 +112,7 @@ import Container from '@components/Container.astro'
 
         <button
           id="header-drawer-button"
-          aria-label={`Toggle drawer open and closed`}
+          aria-label={t.a11y.drawer}
           class={cn(
             'flex md:hidden',
             'size-9 rounded-full p-2 items-center justify-center',

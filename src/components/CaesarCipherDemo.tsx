@@ -26,7 +26,29 @@ function caesarShift(text: string, shift: number) {
     .join('')
 }
 
-export default function CaesarCipherDemo() {
+const LABELS = {
+  es: {
+    text: 'Texto',
+    placeholder: 'Escribí un mensaje...',
+    shift: 'Movimientos',
+    encrypt: 'Cifrar',
+    result: 'Resultado',
+  },
+  en: {
+    text: 'Text',
+    placeholder: 'Type a message...',
+    shift: 'Shift',
+    encrypt: 'Encrypt',
+    result: 'Result',
+  },
+}
+
+type Props = {
+  lang?: keyof typeof LABELS
+}
+
+export default function CaesarCipherDemo({ lang = 'es' }: Props) {
+  const t = LABELS[lang]
   const [text, setText] = createSignal('')
   const [shift, setShift] = createSignal(4)
   const [result, setResult] = createSignal('')
@@ -51,14 +73,14 @@ export default function CaesarCipherDemo() {
       <div class="flex flex-col gap-3">
         <div class="flex flex-col gap-1">
           <label for="caesar-text" class="text-sm opacity-75">
-            Texto
+            {t.text}
           </label>
           <input
             id="caesar-text"
             type="text"
             value={text()}
             onInput={(e) => setText(e.currentTarget.value)}
-            placeholder="Escribí un mensaje..."
+            placeholder={t.placeholder}
             autocomplete="off"
             spellcheck={false}
             class="w-full px-3 py-1.5 rounded outline-none placeholder-neutral-400 dark:placeholder-neutral-500 text-black dark:text-white bg-black/5 dark:bg-white/10 hover:bg-black/10 hover:dark:bg-white/15 focus:bg-black/10 focus:dark:bg-white/15 border border-black/10 dark:border-white/10 focus:border-black/40 focus:dark:border-white/40"
@@ -67,7 +89,7 @@ export default function CaesarCipherDemo() {
 
         <div class="flex flex-col gap-1 w-32">
           <label for="caesar-shift" class="text-sm opacity-75">
-            Movimientos
+            {t.shift}
           </label>
           <input
             id="caesar-shift"
@@ -85,12 +107,12 @@ export default function CaesarCipherDemo() {
           onClick={encrypt}
           class="w-fit px-3 py-1.5 border border-black/25 dark:border-white/25 hover:bg-black/5 dark:hover:bg-white/15 blend rounded"
         >
-          Cifrar
+          {t.encrypt}
         </button>
 
         {result().length > 0 && (
           <div class="flex flex-col gap-1">
-            <div class="text-sm opacity-75">Resultado</div>
+            <div class="text-sm opacity-75">{t.result}</div>
             <div class="px-3 py-1.5 rounded bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/10 break-all">
               {result()}
             </div>

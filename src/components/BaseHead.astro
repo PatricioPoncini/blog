@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from 'astro:transitions'
+import { getAlternatePath, getLang, localizePath, stripLangPrefix } from '@i18n/utils'
 
 interface Props {
   title: string
@@ -10,6 +10,11 @@ interface Props {
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 
 const { title, description, image = '/open-graph.jpeg' } = Astro.props
+
+const lang = getLang(Astro.url)
+const alternate = getAlternatePath(Astro.url)
+const basePath = stripLangPrefix(Astro.url.pathname)
+const ogLocale = { es: 'es_AR', en: 'en_US' }
 ---
 
 <!-- Global Metadata -->
@@ -24,6 +29,11 @@ const { title, description, image = '/open-graph.jpeg' } = Astro.props
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
 
+<!-- Language alternates -->
+<link rel="alternate" hreflang={lang} href={canonicalURL} />
+<link rel="alternate" hreflang={alternate.lang} href={new URL(alternate.path, Astro.site)} />
+<link rel="alternate" hreflang="x-default" href={new URL(localizePath(basePath, 'es'), Astro.site)} />
+
 <!-- Primary Meta Tags -->
 <title>{title}</title>
 <meta name="title" content={title} />
@@ -31,6 +41,8 @@ const { title, description, image = '/open-graph.jpeg' } = Astro.props
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
+<meta property="og:locale" content={ogLocale[lang]} />
+<meta property="og:locale:alternate" content={ogLocale[alternate.lang]} />
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
@@ -47,7 +59,7 @@ const { title, description, image = '/open-graph.jpeg' } = Astro.props
 <link rel="sitemap" href="/sitemap-index.xml" />
 
 <!-- RSS Feed -->
-<link rel="alternate" type="application/rss+xml" title={title} href={`${Astro.site}rss.xml`} />
+<link rel="alternate" type="application/rss+xml" title={title} href={new URL(localizePath('/rss.xml', lang), Astro.site)} />
 
 <!-- Global Scripts -->
 <script is:inline src="/js/theme.js"></script>

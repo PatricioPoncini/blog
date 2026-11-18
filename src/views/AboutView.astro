@@ -1,0 +1,66 @@
+---
+import PageLayout from '@layouts/PageLayout.astro'
+import TopLayout from '@layouts/TopLayout.astro'
+import BottomLayout from '@layouts/BottomLayout.astro'
+import { SOCIALS } from '@consts'
+import { getLang, useTranslations } from '@i18n/utils'
+
+const lang = getLang(Astro.url)
+const t = useTranslations(lang)
+const ABOUT = t.pages.about
+---
+
+<PageLayout title={ABOUT.title} description={ABOUT.description}>
+  <TopLayout>
+    <div class="animate">
+      <h1 class="text-3xl font-semibold text-black dark:text-white mt-2">
+        {ABOUT.title}
+      </h1>
+      <div class="mt-1">
+        {ABOUT.description}
+      </div>
+    </div>
+  </TopLayout>
+  <BottomLayout>
+    <section class="animate flex flex-col md:flex-row gap-8 items-center md:items-start">
+      <img
+        src="/profile_pic.png"
+        alt={t.a11y.profilePic}
+        class="size-40 md:size-48 rounded-full object-cover border border-black/10 dark:border-white/25 shrink-0"
+      />
+      <article>
+        {t.about.paragraphs.map((paragraph) => <p set:html={paragraph} />)}
+      </article>
+    </section>
+
+    <section class="animate mt-12">
+      <p class="font-semibold text-black dark:text-white text-xl">
+        {t.about.contact}
+      </p>
+      <p class="mt-1">
+        {t.about.contactText}
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+        {SOCIALS.map(social => (
+          <a
+            href={social.HREF}
+            target="_blank"
+            class="group flex flex-col gap-3 p-5 rounded-xl border border-black/10 dark:border-white/25 hover:border-black/30 dark:hover:border-white/50 hover:bg-black/5 dark:hover:bg-white/5 blend"
+          >
+            <svg class="size-8 fill-current group-hover:fill-black group-hover:dark:fill-white blend">
+              <use href={`/social.svg#${social.ICON}`} />
+            </svg>
+            <div>
+              <div class="font-semibold text-black dark:text-white">
+                {social.NAME}
+              </div>
+              <div class="text-sm truncate text-black/75 dark:text-white/75">
+                {social.TEXT}
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  </BottomLayout>
+</PageLayout>

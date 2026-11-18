@@ -1,23 +1,30 @@
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import type { Lang } from '../i18n/ui'
+
+const LOCALES: Record<Lang, string> = { es: 'es-AR', en: 'en-US' }
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function formatDate(date: Date) {
-  return Intl.DateTimeFormat('en-US', {
+export function formatDate(date: Date, lang: Lang = 'es') {
+  return Intl.DateTimeFormat(LOCALES[lang], {
     month: 'short',
     day: '2-digit',
     year: 'numeric',
   }).format(date)
 }
 
-export function readingTime(html: string) {
+export function formatMonthYear(date: Date, lang: Lang = 'es') {
+  return Intl.DateTimeFormat(LOCALES[lang], { month: 'short', year: 'numeric' }).format(date)
+}
+
+export function readingTime(html: string, label: string) {
   const textOnly = html.replace(/<[^>]+>/g, '')
   const wordCount = textOnly.split(/\s+/).length
   const readingTimeMinutes = (wordCount / 200 + 1).toFixed()
-  return `${readingTimeMinutes} minutos de lectura`
+  return `${readingTimeMinutes} ${label}`
 }
 
 export function truncateText(str: string, maxLength: number): string {

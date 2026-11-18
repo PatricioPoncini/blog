@@ -1,0 +1,36 @@
+---
+import PageLayout from '@layouts/PageLayout.astro'
+import TopLayout from '@layouts/TopLayout.astro'
+import BottomLayout from '@layouts/BottomLayout.astro'
+import Search from '@components/Search'
+import { getLang, getLocalizedCollection, useTranslations } from '@i18n/utils'
+
+const lang = getLang(Astro.url)
+const SEARCH = useTranslations(lang).pages.search
+
+const posts = (await getLocalizedCollection('blog', lang)).filter((post) => !post.data.draft)
+
+const projects = (await getLocalizedCollection('projects', lang)).filter(
+  (project) => !project.data.draft
+)
+
+const data = [...posts, ...projects]
+---
+
+<PageLayout title={SEARCH.title} description={SEARCH.description}>
+  <TopLayout>
+    <div class="animate">
+      <h1 class="text-3xl font-semibold text-black dark:text-white mt-2">
+        {SEARCH.title}
+      </h1>
+      <div class="mt-1">
+        {SEARCH.description}
+      </div>
+    </div>
+  </TopLayout>
+  <BottomLayout>
+    <div class="animate">
+      <Search client:load data={data} lang={lang} />
+    </div>
+  </BottomLayout>
+</PageLayout>

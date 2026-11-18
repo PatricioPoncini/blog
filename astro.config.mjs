@@ -6,6 +6,26 @@ import solidJs from '@astrojs/solid-js'
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://astro-sphere-demo.vercel.app',
-  integrations: [mdx(), sitemap(), solidJs(), tailwind({ applyBaseStyles: false })],
+  site: 'https://patricioponcini.com.ar',
+  i18n: {
+    defaultLocale: 'es',
+    locales: ['es', 'en'],
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
+  integrations: [
+    mdx(),
+    sitemap({
+      i18n: {
+        defaultLocale: 'es',
+        locales: {
+          es: 'es-AR',
+          en: 'en-US',
+        },
+      },
+    }),
+    solidJs(),
+    tailwind({ applyBaseStyles: false }),
+  ],
 })
