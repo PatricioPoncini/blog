@@ -1,6 +1,6 @@
 ---
-title: 'Salen las entradas a las 20:00: qué pasa cuando 20.000 personas llegan al mismo segundo'
-summary: 'Rate limiting con token bucket, sala de espera virtual y load shedding: tres formas de proteger un checkout ante un pico de tráfico, qué resuelve cada una y qué deja sin resolver. Con un simulador en Go que podés correr en tu máquina para comparar las tres.'
+title: 'Por qué se caen las páginas cuando salen las entradas'
+summary: 'Pasó con Taylor Swift y pasa cada vez que miles de personas quieren comprar en el mismo segundo. Qué hay detrás de esas caídas y tres formas de evitarlas: rate limiting, sala de espera virtual y load shedding. Con un simulador en Go para verlo en acción.'
 date: '2026-11-25'
 draft: false
 tags:

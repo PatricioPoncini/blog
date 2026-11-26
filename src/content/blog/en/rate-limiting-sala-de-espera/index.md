@@ -1,6 +1,6 @@
 ---
-title: 'Tickets go on sale at 8 PM: what happens when 20,000 people arrive in the same second'
-summary: 'Token bucket rate limiting, a virtual waiting room and load shedding: three ways to protect a checkout from a traffic spike, what each one solves and what it leaves unsolved. With a Go simulator you can run on your machine to compare all three.'
+title: 'Why ticket sites crash when tickets go on sale'
+summary: 'It happened with Taylor Swift and it happens every time thousands of people try to buy in the same second. What''s behind those crashes and three ways to prevent them: rate limiting, a virtual waiting room and load shedding. With a Go simulator to see it in action.'
 date: '2026-11-25'
 draft: false
 tags:
